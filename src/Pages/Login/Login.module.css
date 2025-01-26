@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  background-color: var(--primary);
+  width: 50vw;
+  height: 60vh;
+  padding: 2rem;
+
+  border-radius: 2rem;
+
+  h1 {
+    font-size: 4rem;
+  }
+}
+
+.label {
+  font-size: 2rem;
+}
+
+.input {
+  font-size: 2rem;
+
+  background-color: var(--secondary);
+  padding: 0.5rem 1rem;
+
+  border-radius: 0.5rem;
+
+  border: none;
+}
+
+.button {
+  font-size: 1.5rem;
+  background-color: var(--accent);
+  padding: 1rem 2rem;
+
+  border: none;
+  border-radius: 1rem;
+
+  cursor: pointer;
+}
+
+.img {
+  height: 50rem;
+}

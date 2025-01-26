@@ -1,0 +1,5 @@
+.logoutButton {
+  font-size: 2rem;
+
+  background-color: var(--accent);
+}
