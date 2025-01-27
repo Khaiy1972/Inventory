@@ -1,0 +1,91 @@
+/* General table styling */
+.table {
+  font-size: 16px;
+  text-align: left;
+
+  width: 100%;
+  margin: 20px 0;
+
+  border-collapse: collapse;
+}
+
+.header {
+  background-color: var(--primary);
+
+  th {
+    padding: 1rem;
+  }
+}
+
+.body {
+  background-color: var(--background);
+  td {
+    height: 7rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+  }
+}
+
+.thumbnail {
+  height: 2rem;
+}
+
+.img {
+  width: auto;
+  height: 7rem;
+  object-fit: contain;
+}
+
+/* Thumbnail styling */
+/* td img {
+  width: 60px;
+  height: auto;
+  border-radius: 4px;
+} */
+
+/* Search box styling */
+input[type="text"] {
+  margin: 10px 0;
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.pagination select,
+.pagination input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pagination span {
+  font-size: 16px;
+}
+
+/* Discount badge styling */
+.discountBadge {
+  background-color: #ff5e57;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+}
+
+.priceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

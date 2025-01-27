@@ -1,0 +1,139 @@
+.background {
+  position: fixed;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal {
+  position: relative;
+
+  overflow-y: scroll;
+
+  background-color: var(--background);
+  height: 70vh;
+  width: 60vw;
+  padding: 3rem 0;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--secondary);
+  height: 9%;
+  width: 60vw;
+  /* padding: 0.5rem 2rem; */
+
+  div {
+    margin-left: 2rem;
+  }
+}
+
+.close {
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  background-color: transparent;
+  margin-left: auto;
+
+  border: none;
+
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.imgThumbnailContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.imgThumbnail {
+  height: 20rem;
+}
+
+.imgPreviewContainer {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.imgPreview {
+  height: 5rem;
+  border-radius: 0.5rem;
+}
+
+.imgPreview.selected {
+  border: 1px solid var(--accent);
+}
+
+.navButton {
+  font-size: 1.5rem;
+
+  background-color: transparent;
+  padding: 4rem 1rem;
+
+  border: none;
+  border-radius: 1rem;
+
+  cursor: pointer;
+  transition: all 0.18s ease-in-out;
+}
+
+.navButton:hover {
+  background-color: var(--accent);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  margin-left: 2rem;
+
+  label {
+    color: var(--secondary);
+  }
+}
+
+.footer {
+  position: sticky;
+  top: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  background-color: var(--secondary);
+  width: 60vw;
+  height: 7%;
+}
+
+.closeFooter {
+  color: var(--accent);
+  font-size: 1.2rem;
+
+  background-color: transparent;
+  margin-right: 2rem;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+.closeFooter:hover {
+  color: var(--text);
+}
