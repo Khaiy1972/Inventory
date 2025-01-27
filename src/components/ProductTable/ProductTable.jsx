@@ -6,6 +6,7 @@ import { DetailsModal } from "../../components";
 
 function ProductTable() {
   const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
   const [filteredProducts, setFilteredProduct] = useState([]);
   const [search, setSearch] = useState("");
   const [componentStatus, setComponentStatus] = useState({
@@ -23,7 +24,8 @@ function ProductTable() {
         const response = await getProduct(pagination.page, pagination.limit);
         if (response) {
           const data = response.products;
-          setProducts((p) => [...data]);
+          setTotal(Math.ceil(response.total / pagination.limit));
+          setProducts([...data]);
           setFilteredProduct([...data]);
         }
       } catch (error) {
@@ -59,6 +61,14 @@ function ProductTable() {
     } catch (error) {
       console.log("Error: ", error);
     }
+  };
+
+  const handlePaginationRight = () => {
+    setPagination((p) => ({ ...p, page: p.page < total ? p.page + 1 : 1 }));
+  };
+
+  const handlePaginationLeft = () => {
+    setPagination((p) => ({ ...p, page: p.page > 1 ? p.page - 1 : total }));
   };
 
   if (loading) return <div>Loading.....</div>;
@@ -123,14 +133,21 @@ function ProductTable() {
           )}
         </tbody>
       </table>
-      <div>
-        <button>{`<`}</button>
-        <select name="" id="">
-          <option value="1">1</option>
-        </select>
-        <button>{`>`}</button>
-        <p>of {``}</p>
+
+      <footer className={style.footer}>
+        <button className={style.nav} onClick={handlePaginationLeft}>{`<`}</button>
         <select
+          className={style.dropdown}
+          value={pagination.page}
+          onChange={(e) => setPagination((p) => ({ ...p, page: e.target.value }))}>
+          {Array.from({ length: total }).map((_, index) => (
+            <option value={index + 1}>{index + 1}</option>
+          ))}
+        </select>
+        <button className={style.nav} onClick={handlePaginationRight}>{`>`}</button>
+        {pagination.limit > 0 && <p>of {total}</p>}
+        <select
+          className={`${style.dropdown} ${style.limit}`}
           value={pagination.limit}
           onChange={(e) => setPagination((p) => ({ ...p, limit: e.target.value }))}>
           <option value="5">5</option>
@@ -138,7 +155,7 @@ function ProductTable() {
           <option value="15">15</option>
           <option value="20">20</option>
         </select>
-      </div>
+      </footer>
     </div>
   );
 }

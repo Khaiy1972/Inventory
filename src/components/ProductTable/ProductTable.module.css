@@ -36,13 +36,6 @@
   object-fit: contain;
 }
 
-/* Thumbnail styling */
-/* td img {
-  width: 60px;
-  height: auto;
-  border-radius: 4px;
-} */
-
 /* Search box styling */
 input[type="text"] {
   margin: 10px 0;
@@ -61,17 +54,6 @@ input[type="text"] {
   margin: 10px 0;
 }
 
-.pagination select,
-.pagination input {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.pagination span {
-  font-size: 16px;
-}
-
 /* Discount badge styling */
 .discountBadge {
   background-color: #ff5e57;
@@ -88,4 +70,35 @@ input[type="text"] {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav {
+  font-size: 1.6rem;
+  background-color: transparent;
+  border: none;
+
+  cursor: pointer;
+}
+
+.dropdown {
+  color: var(--text);
+  font-size: 1.4rem;
+
+  background-color: transparent;
+  padding: 0.25rem 1.5rem;
+
+  border: 1px solid var(--text);
+  border-radius: 0.5rem;
+}
+
+.dropdown.limit::after {
+  content: "Per Page";
+  top: 0;
+  left: 0;
 }

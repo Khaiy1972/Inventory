@@ -3,11 +3,11 @@ import axios from "./baseURL";
 export const getProduct = async (page = 1, limit = 5) => {
   try {
     const skip = (page - 1) * limit;
-    const reponse = await axios.get(
+    const response = await axios.get(
       `products/category/smartphones?skip=${skip}&limit=${limit}`
     );
-    console.log("List of Products: ", reponse.data);
-    return reponse.data;
+    console.log("List of Products: ", response.data);
+    return response.data;
   } catch (error) {
     console.log("Error fetching product list:", error);
   }
