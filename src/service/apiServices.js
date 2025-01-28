@@ -69,7 +69,7 @@ export const deleteProduct = async (productID) => {
 
 export const updateProduct = async (productID, product) => {
   try {
-    const response = await axios.put(`products/${productID}`, product);
+    const response = await axios.patch(`products/${productID}`, product);
     console.log("Product Updated: ", response.data);
 
     return response.data;

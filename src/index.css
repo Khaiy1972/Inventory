@@ -25,6 +25,7 @@ label,
 li,
 button,
 input,
+textarea,
 th,
 td {
   color: var(--text);

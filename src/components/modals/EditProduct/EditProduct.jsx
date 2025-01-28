@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postProduct } from "../../../service/apiServices";
+import { updateProduct } from "../../../service/apiServices";
 import { isEqual } from "lodash";
 
 import { ErrorModal } from "../../../components";
@@ -8,14 +8,7 @@ import style from "./EditProduct.module.css";
 
 function EditProduct({ productDetails, onClose }) {
   const [product, setProduct] = useState({
-    title: productDetails.title,
-    description: productDetails.description,
-    brand: productDetails.brand,
-    price: productDetails.price,
-    discountPercentage: productDetails.discountPercentage,
-    stock: productDetails.stock,
-    rating: productDetails.rating,
-    images: productDetails.images,
+    ...productDetails,
   });
   const [imgPreview, setImgPreview] = useState(0);
 
@@ -51,13 +44,23 @@ function EditProduct({ productDetails, onClose }) {
   };
 
   const handleUpdate = async () => {
+    console.log("Product Details: ", productDetails);
+    console.log("Updated Product: ", product);
+
     if (isEqual(product, productDetails)) {
       alert("No changes were made");
       return;
     }
 
+    const toUpdate = Object.keys(product).reduce((acc, key) => {
+      if (product[key] !== productDetails[key]) {
+        acc[key] = product[key];
+      }
+      return acc;
+    }, {});
+
     try {
-      const response = await postProduct(product);
+      const response = await updateProduct(productDetails.id, { ...toUpdate });
       alert("Product Updated");
       console.log("Product Updated: ", response);
     } catch (error) {
@@ -75,12 +78,7 @@ function EditProduct({ productDetails, onClose }) {
       <header className={style.header}>
         <div>
           <h4>SMARTPHONES</h4>
-          <input
-            className={`${style.input} ${style.title}`}
-            name="title"
-            value={product.title}
-            onChange={handleInputChange}
-          />
+          <h1>{product.title}</h1>
         </div>
 
         <button className={style.close} onClick={() => onClose()}>
@@ -120,52 +118,80 @@ function EditProduct({ productDetails, onClose }) {
         </section>
 
         <section className={style.details}>
-          <input
-            className={style.input}
-            type="number"
-            name="price"
-            value={product.price}
-            onChange={handleInputChange}
-          />
-          <label>Discount</label>
-          <input
-            className={style.input}
-            type="number"
-            name="discountPercentage"
-            value={product.discountPercentage}
-            onChange={handleInputChange}
-          />
-          <label>Description</label>
-          <textarea
-            className={style.input}
-            typeof="text"
-            name="description"
-            value={product.description}
-            onChange={handleInputChange}></textarea>
-          <label>Brand</label>
-          <input
-            className={style.input}
-            type="text"
-            name="brand"
-            value={product.brand}
-            onChange={handleInputChange}
-          />
-          <label>Stock</label>
-          <input
-            className={style.input}
-            type="number"
-            name="stock"
-            value={product.stock}
-            onChange={handleInputChange}
-          />
-          <label>Rating</label>
-          <input
-            className={style.inputBrand}
-            type="number"
-            name="rating"
-            value={product.rating}
-            onChange={handleInputChange}
-          />
+          <div>
+            <label>Model</label>
+            <input
+              className={`${style.input} ${style.title}`}
+              name="title"
+              value={product.title}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Price</label>
+            <input
+              className={style.input}
+              type="number"
+              name="price"
+              value={product.price}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Discount</label>
+            <input
+              className={style.input}
+              type="number"
+              name="discountPercentage"
+              value={product.discountPercentage}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Description</label>
+            <textarea
+              className={style.input}
+              typeof="text"
+              name="description"
+              value={product.description}
+              onChange={handleInputChange}></textarea>
+          </div>
+
+          <div>
+            <label>Brand</label>
+            <input
+              className={style.input}
+              type="text"
+              name="brand"
+              value={product.brand}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Stock</label>
+            <input
+              className={style.input}
+              type="number"
+              name="stock"
+              value={product.stock}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div>
+            <label>Rating</label>
+            <input
+              className={style.inputBrand}
+              type="number"
+              name="rating"
+              value={product.rating}
+              onChange={handleInputChange}
+            />
+          </div>
         </section>
       </div>
 

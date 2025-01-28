@@ -21,21 +21,23 @@
   background-color: var(--background);
   height: 70vh;
   width: 60vw;
-  padding: 3rem 0;
+  padding: 2rem 3rem;
 }
 
 .header {
   position: sticky;
   top: 0;
+  z-index: 100;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: var(--secondary);
+  background-color: var(--background);
   height: 9%;
   width: 60vw;
-  /* padding: 0.5rem 2rem; */
+
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 
   div {
     margin-left: 2rem;
@@ -53,6 +55,10 @@
 
   cursor: pointer;
   margin-right: 2rem;
+}
+
+.close:hover {
+  color: var(--accent);
 }
 
 .imgThumbnailContainer {
@@ -100,12 +106,42 @@
 .details {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 
-  margin-left: 2rem;
+  margin-top: 2rem;
 
   label {
     color: var(--secondary);
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    input {
+      font-size: 1.5rem;
+
+      background-color: var(--secondary);
+      width: 50%;
+      margin: 0 1rem;
+      padding: 0.5rem 1rem;
+
+      border: none;
+      border-radius: 0.5rem;
+    }
+
+    textarea {
+      font-size: 1.5rem;
+
+      background-color: var(--secondary);
+      width: 50%;
+      margin: 0 1rem;
+      padding: 0.5rem 1rem;
+
+      border: none;
+      border-radius: 0.5rem;
+    }
   }
 }
 
@@ -122,30 +158,35 @@
 .footer {
   position: sticky;
   top: 100%;
+  z-index: 100;
 
   display: flex;
   align-items: center;
   justify-content: end;
 
-  background-color: var(--secondary);
+  background-color: var(--background);
   width: 60vw;
   height: 7%;
+
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 }
 
 .closeFooter {
-  color: var(--accent);
-  font-size: 1.2rem;
+  color: var(--background);
+  font-size: 1.3rem;
 
-  background-color: transparent;
+  background-color: var(--accent);
   margin-right: 2rem;
+  padding: 0.5rem 1rem;
 
   border: none;
+  border-radius: 0.5rem;
 
   cursor: pointer;
 }
 
 .closeFooter:hover {
-  color: var(--text);
+  background-color: var(--primary);
 }
 
 .input {

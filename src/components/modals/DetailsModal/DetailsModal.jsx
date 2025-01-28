@@ -59,16 +59,26 @@ function DetailsModal({ productDetails, onClose }) {
 
         <section className={style.details}>
           <h2>$ {productDetails.price}</h2>
-          <label>Discount</label>
-          <h3>{productDetails.discountPercentage}% OFF</h3>
-          <label>Description</label>
-          <h3>{productDetails.description}</h3>
-          <label>Brand</label>
-          <h3>{productDetails.brand}</h3>
-          <label>Stock</label>
-          <h3>{productDetails.stock} units</h3>
-          <label>Rating</label>
-          <h3>{productDetails.rating} / 5</h3>
+          <div>
+            <label>Discount</label>
+            <h3>{productDetails.discountPercentage}% OFF</h3>
+          </div>
+          <div>
+            <label>Description</label>
+            <h3>{productDetails.description}</h3>
+          </div>
+          <div>
+            <label>Brand</label>
+            <h3>{productDetails.brand}</h3>
+          </div>
+          <div>
+            <label>Stock</label>
+            <h3>{productDetails.stock} units</h3>
+          </div>
+          <div>
+            <label>Rating</label>
+            <h3>{productDetails.rating} / 5</h3>
+          </div>
         </section>
       </div>
 

@@ -27,15 +27,20 @@
 .header {
   position: sticky;
   top: 0;
+  z-index: 100;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
-  background-color: var(--secondary);
+  background-color: var(--background);
   height: 9%;
   width: 60vw;
-  /* padding: 0.5rem 2rem; */
+
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 
   div {
     margin-left: 2rem;
@@ -47,12 +52,15 @@
   font-weight: bold;
 
   background-color: transparent;
-  margin-left: auto;
 
   border: none;
 
   cursor: pointer;
   margin-right: 2rem;
+}
+
+.close:hover {
+  color: var(--accent);
 }
 
 .imgThumbnailContainer {
@@ -102,7 +110,13 @@
   flex-direction: column;
   gap: 2rem;
 
-  margin-left: 2rem;
+  padding: 2rem 4rem;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
   label {
     color: var(--secondary);
@@ -117,23 +131,29 @@
   align-items: center;
   justify-content: end;
 
-  background-color: var(--secondary);
+  background-color: var(--background);
   width: 60vw;
-  height: 7%;
+  height: 8%;
+
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 }
 
 .closeFooter {
-  color: var(--accent);
+  color: var(--background);
   font-size: 1.2rem;
 
-  background-color: transparent;
+  background-color: var(--accent);
   margin-right: 2rem;
+  padding: 0.5rem 1rem;
 
   border: none;
+  border-radius: 0.5rem;
 
   cursor: pointer;
 }
 
 .closeFooter:hover {
-  color: var(--text);
+  background-color: var(--primary);
 }

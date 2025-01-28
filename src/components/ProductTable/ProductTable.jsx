@@ -151,13 +151,13 @@ function ProductTable() {
                 </td>
 
                 <td
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: "bold" }}
                   className={`${style.priceContainer} ${style.data}`}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                   }>
                   ${product.price}{" "}
-                  <div style={{ marginLeft: "1rem" }} className={style.discountBadge}>
+                  <div className={style.discountBadge}>
                     {product.discountPercentage}% OFF
                   </div>
                 </td>

@@ -34,12 +34,17 @@
 
   background-color: var(--accent);
 
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   margin-left: 2rem;
 
   border: none;
+  border-radius: 0.5rem;
 
   cursor: pointer;
+}
+
+.clearSearchButton:hover {
+  background-color: var(--text);
 }
 
 /* table css ====================================== */
@@ -81,11 +86,14 @@
 
 /* Discount badge styling */
 .discountBadge {
-  background-color: #ff5e57;
-  color: white;
+  color: var(--background);
+  font-size: 1.1rem;
+
+  background-color: var(--accent);
+  margin-left: 1rem;
+
   padding: 5px 10px;
   border-radius: 4px;
-  font-size: 12px;
   font-weight: bold;
   text-align: center;
   display: inline-block;
@@ -93,14 +101,20 @@
 
 .actionButton {
   color: var(--background);
+  font-size: 1rem;
 
   background-color: var(--accent);
   padding: 0.5rem 1rem;
   margin: 1rem 2rem;
 
   border: none;
+  border-radius: 0.5rem;
 
   cursor: pointer;
+}
+
+.actionButton:hover {
+  background-color: var(--text);
 }
 
 /* Pagination styling */
