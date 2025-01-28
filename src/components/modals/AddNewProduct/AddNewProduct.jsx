@@ -37,8 +37,11 @@ function AddNewProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const areAllFieldsFilled = Object.values(productData).every(
+      (value) => value !== null && value !== undefined && value !== "" && value !== 0
+    );
 
-    if (isEqual(productData, emptyProductData)) {
+    if (!areAllFieldsFilled) {
       setComponentStatus((cs) => ({ ...cs, isError: "Fill out the Details" }));
       return;
     }
@@ -52,6 +55,11 @@ function AddNewProduct() {
       setComponentStatus({ isAddModalOpen: false, isLoading: false });
       setProductData(emptyProductData);
     }
+  };
+
+  const handleClose = () => {
+    setComponentStatus({ isAddModalOpen: false });
+    setProductData(emptyProductData);
   };
 
   const handleImageInput = (e) => {
@@ -90,15 +98,14 @@ function AddNewProduct() {
       {componentStatus.isAddModalOpen && (
         <div className={style.background}>
           <div className={style.modal}>
-            <h1>Add New Product</h1>
-
-            <form className={style.form} onSubmit={handleSubmit}>
-              <button
-                className={style.close}
-                type="button"
-                onClick={() => setComponentStatus({ isAddModalOpen: false })}>
+            <header className={style.header}>
+              <h1>Add New Product</h1>
+              <button className={style.close} type="button" onClick={handleClose}>
                 X
               </button>
+            </header>
+
+            <form className={style.form} onSubmit={handleSubmit}>
               <label>Images</label>
               {productData.images.length > 0 && (
                 <>
@@ -188,14 +195,13 @@ function AddNewProduct() {
                   onChange={handleInput}
                 />
               </label>
+            </form>
 
-              <button className={style.button} type="submit">
+            <footer className={style.footer}>
+              <button className={style.button} type="submit" onClick={handleSubmit}>
                 Add Product
               </button>
-              <button className={style.button} type="button">
-                close
-              </button>
-            </form>
+            </footer>
           </div>
         </div>
       )}

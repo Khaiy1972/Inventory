@@ -19,7 +19,7 @@
 
   background-color: var(--text);
   height: 8vh;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
 
   border-radius: 1rem;
 }
@@ -33,7 +33,7 @@
   font-size: 2.5rem;
 
   background-color: var(--accent);
-  height: 60%;
+  height: 90%;
   aspect-ratio: 1/1;
 
   border-radius: 100%;
@@ -45,7 +45,7 @@
 }
 
 .close {
-  color: var(--accent);
+  color: var(--background);
   font-weight: bold;
   font-size: 1.5rem;
 
@@ -55,4 +55,8 @@
   border: none;
 
   cursor: pointer;
+}
+
+.close:hover {
+  color: var(--accent);
 }

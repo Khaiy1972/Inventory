@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
 
 import style from "./ProductTable.module.css";
-import { DetailsModal, EditProduct } from "../../components";
-import { set } from "lodash";
+import { DetailsModal, EditProduct, LoadingAnimation1 } from "../../components";
 
 function ProductTable() {
   const [products, setProducts] = useState([]);
@@ -17,11 +16,11 @@ function ProductTable() {
     isEditOpen: null,
   });
   const [pagination, setPagination] = useState({ page: 1, limit: 5 });
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setComponentStatus((cs) => ({ ...cs, isLoading: true }));
       try {
         const response = await getProduct(pagination.page, pagination.limit, search);
         if (response) {
@@ -34,7 +33,7 @@ function ProductTable() {
         setError(error.message);
         alert(error.message);
       } finally {
-        setLoading(false);
+        setComponentStatus((cs) => ({ ...cs, isLoading: false }));
       }
     };
 
@@ -58,9 +57,6 @@ function ProductTable() {
     setPagination((p) => ({ ...p, page: p.page > 1 ? p.page - 1 : total }));
   };
 
-  if (loading) return <div>Loading.....</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div className={style.container}>
       {/* conditional Renders */}
@@ -82,35 +78,52 @@ function ProductTable() {
       <header className={style.header}>
         <h1 className={style.title}>Product List</h1>
       </header>
-      <input
-        className={style.searchInput}
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search Product"
-      />
+
+      <section className={style.searchSection}>
+        <input
+          className={style.searchInput}
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search Product"
+        />
+        <button className={style.clearSearchButton}>Clear</button>
+      </section>
 
       <table className={style.table}>
         <thead className={style.tableHeader}>
           <tr>
-            <th>Thumbnail</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Action</th>
+            <th style={{ width: "15%" }}>Thumbnail</th>
+            <th style={{ width: "10%" }}>Name</th>
+            <th style={{ width: "50%" }}>Description</th>
+            <th style={{ width: "15%" }}>Price</th>
+            <th style={{ width: "10%" }}>Action</th>
           </tr>
         </thead>
 
         <tbody className={style.body}>
           {filteredProducts.length === 0 ? (
             <tr>
-              <td colSpan={6}>No Items Found</td>
+              <td colSpan={6} style={{ textAlign: "center" }}>
+                No Items Found
+              </td>
+            </tr>
+          ) : componentStatus.isLoading ? (
+            <tr>
+              <td
+                colSpan={6}
+                style={{
+                  textAlign: "center",
+                  padding: "5rem",
+                }}>
+                <LoadingAnimation1 />
+              </td>
             </tr>
           ) : (
             filteredProducts.map((product, index) => (
-              <tr key={index}>
+              <tr style={{ height: "10rem" }} key={index}>
                 <td
-                  className={style.thumbnail}
+                  style={{ textAlign: "center" }}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                   }>
@@ -118,7 +131,6 @@ function ProductTable() {
                     className={style.img}
                     src={product.images[0]}
                     alt={product.title}
-                    style={{ width: "50px", height: "50px" }}
                   />
                 </td>
 
@@ -139,18 +151,25 @@ function ProductTable() {
                 </td>
 
                 <td
+                  style={{ textAlign: "center" }}
                   className={`${style.priceContainer} ${style.data}`}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                   }>
                   ${product.price}{" "}
-                  <div className={style.discountBadge}>
+                  <div style={{ marginLeft: "1rem" }} className={style.discountBadge}>
                     {product.discountPercentage}% OFF
                   </div>
                 </td>
-                <td>
-                  <button onClick={() => handleDelete(product.id)}>Delete</button>
+
+                <td style={{ textAlign: "center" }}>
                   <button
+                    className={style.actionButton}
+                    onClick={() => handleDelete(product.id)}>
+                    Delete
+                  </button>
+                  <button
+                    className={style.actionButton}
                     onClick={() =>
                       setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
                     }>

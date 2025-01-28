@@ -8,6 +8,41 @@
   border-radius: 1rem;
 }
 
+/* Search box styling =============================== */
+.searchSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.searchInput {
+  font-size: 16px;
+
+  background-color: rgba(119, 136, 153, 0.473);
+  height: 3rem;
+  width: 100%;
+  padding: 0 1rem;
+
+  border-radius: 4px;
+  border: none;
+}
+
+.clearSearchButton {
+  color: var(--background);
+  font-size: 1.3rem;
+
+  background-color: var(--accent);
+
+  padding: 0.5rem 1rem;
+  margin-left: 2rem;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+/* table css ====================================== */
 .table {
   font-size: 16px;
   text-align: left;
@@ -29,44 +64,19 @@
 .body {
   background-color: var(--background);
   td {
-    height: 7rem;
     padding: 1rem;
     border: 1px solid #ddd;
   }
 }
 
-.thumbnail {
-  height: 2rem;
-}
-
 .img {
   width: auto;
-  height: 7rem;
+  height: 100px;
   object-fit: contain;
 }
 
 .data {
   cursor: pointer;
-}
-
-/* Search box styling */
-.searchInput {
-  background-color: rgba(119, 136, 153, 0.473);
-  height: 3rem;
-  margin: 1rem 0;
-  width: 100%;
-  border-radius: 4px;
-  font-size: 16px;
-
-  border: none;
-}
-
-/* Pagination styling */
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px 0;
 }
 
 /* Discount badge styling */
@@ -81,10 +91,24 @@
   display: inline-block;
 }
 
-.priceContainer {
+.actionButton {
+  color: var(--background);
+
+  background-color: var(--accent);
+  padding: 0.5rem 1rem;
+  margin: 1rem 2rem;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+/* Pagination styling */
+.pagination {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
 }
 
 .footer {

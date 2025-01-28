@@ -1,23 +1,4 @@
-.button {
-  color: var(--background);
-
-  background-color: var(--accent);
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2rem 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-
-.button:hover {
-  background-color: var(--text);
-}
-
+/* Modal */
 .background {
   position: fixed;
   top: 0;
@@ -42,19 +23,30 @@
   overflow-y: scroll;
 
   background-color: var(--background);
-  padding: 2rem 6rem;
 
   width: 50vw;
-  height: 80vh;
+  height: 85vh;
 
   border-radius: 10px;
 }
 
-.close {
-  position: absolute;
-  top: 5%;
-  right: 3%;
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--background);
+  width: 100%;
+  padding: 1rem 2rem;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.close {
   font-size: 1.5rem;
   font-weight: bold;
 
@@ -73,10 +65,14 @@
   color: var(--accent);
 }
 
+/* form ================================= */
+
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+
+  margin: 0 2rem;
 
   label {
     font-size: 1.5rem;
@@ -84,12 +80,15 @@
   }
 
   input {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     padding: 0.25rem 0.5rem;
 
     background-color: var(--secondary);
+    margin-left: 0.5rem;
+    padding: 0.5rem;
 
     border: none;
+    border-radius: 0.5rem;
   }
 
   input[type="file"] {
@@ -139,4 +138,38 @@
 
 .navButton:hover {
   background-color: var(--accent);
+}
+
+.footer {
+  position: sticky;
+  top: 100%;
+  left: 0;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  background-color: var(--background);
+  width: 100%;
+  padding: 1rem 1rem;
+
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  color: var(--background);
+
+  background-color: var(--accent);
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: var(--text);
 }
