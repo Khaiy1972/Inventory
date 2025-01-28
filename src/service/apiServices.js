@@ -1,13 +1,44 @@
 import axios from "./baseURL";
 
-export const getProduct = async (page = 1, limit = 5) => {
+// export const getProduct = async (page = 1, limit = 5, search = "") => {
+//   try {
+//     const skip = (page - 1) * limit;
+//     const response = await axios.get(
+//       `products/category/smartphones?skip=${skip}&limit=${limit}`
+//     );
+//     console.log("List of Products: ", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.log("Error fetching product list:", error);
+//   }
+// };
+
+export const getProduct = async (page = 1, limit = 5, search = "") => {
   try {
     const skip = (page - 1) * limit;
-    const response = await axios.get(
-      `products/category/smartphones?skip=${skip}&limit=${limit}`
-    );
-    console.log("List of Products: ", response.data);
-    return response.data;
+    const endpoint = search
+      ? `products/search?q=${search}&limit=0`
+      : `products/category/smartphones?skip=${skip}&limit=${limit}`;
+
+    const response = await axios.get(endpoint);
+
+    // If searching, filter results to include only the smartphone category
+    let products = response.data.products;
+
+    if (search.trim()) {
+      products = products.filter(
+        (product) =>
+          product.category === "smartphones" &&
+          product.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    console.log("Filtered List of Products: ", products);
+
+    return {
+      ...response.data,
+      products,
+    };
   } catch (error) {
     console.log("Error fetching product list:", error);
   }

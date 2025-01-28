@@ -21,7 +21,7 @@ function ProductTable() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await getProduct(pagination.page, pagination.limit);
+        const response = await getProduct(pagination.page, pagination.limit, search);
         if (response) {
           const data = response.products;
           setTotal(Math.ceil(response.total / pagination.limit));
@@ -37,22 +37,22 @@ function ProductTable() {
     };
 
     fetchProducts();
-  }, [pagination]);
+  }, [pagination, search]);
 
-  const handleSearch = async (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearch(query);
+  // const handleSearch = async (e) => {
+  //   const query = e.target.value.toLowerCase();
+  //   setSearch(query);
 
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(query)
-    );
+  //   const filtered = products.filter((product) =>
+  //     product.title.toLowerCase().includes(query)
+  //   );
 
-    if (search === "") {
-      setFilteredProduct(products);
-    } else {
-      setFilteredProduct(filtered);
-    }
-  };
+  //   if (search === "") {
+  //     setFilteredProduct(products);
+  //   } else {
+  //     setFilteredProduct(filtered);
+  //   }
+  // };
 
   const handleDelete = async (id) => {
     try {
@@ -84,7 +84,7 @@ function ProductTable() {
           }></DetailsModal>
       )}
       <h1>Product List</h1>
-      <input type="text" value={search} onChange={handleSearch} />
+      <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
       <table className={style.table}>
         <thead className={style.header}>
           <tr>
