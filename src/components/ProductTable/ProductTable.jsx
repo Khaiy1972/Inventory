@@ -62,7 +62,7 @@ function ProductTable() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <div className={style.container}>
       {/* conditional Renders */}
       {componentStatus.isEditOpen && (
         <EditProduct
@@ -81,15 +81,14 @@ function ProductTable() {
       {/* main render */}
       <header className={style.header}>
         <h1 className={style.title}>Product List</h1>
-
-        <input
-          className={style.searchInput}
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search Product"
-        />
       </header>
+      <input
+        className={style.searchInput}
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search Product"
+      />
 
       <table className={style.table}>
         <thead className={style.tableHeader}>

@@ -7,7 +7,14 @@ import { ErrorModal } from "../../../components";
 import style from "./AddNewProduct.module.css";
 
 function AddNewProduct() {
-  const emptyProductData = { title: "", brand: "", description: "", price: 0, stock: 0 };
+  const emptyProductData = {
+    title: "",
+    brand: "",
+    description: "",
+    price: 0,
+    stock: 0,
+    images: [],
+  };
   const [componentStatus, setComponentStatus] = useState({
     isAddModalOpen: false,
     isLoading: false,
@@ -19,7 +26,9 @@ function AddNewProduct() {
     description: "",
     price: 0,
     stock: 0,
+    images: [],
   });
+  const [imgPreviewIndex, setImgPreviewIndex] = useState(0);
 
   const handleInput = (event) => {
     const { name, value } = event.target;
@@ -41,7 +50,32 @@ function AddNewProduct() {
       alert("Can't post");
     } finally {
       setComponentStatus({ isAddModalOpen: false, isLoading: false });
+      setProductData(emptyProductData);
     }
+  };
+
+  const handleImageInput = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setProductData((pd) => ({
+        ...pd,
+        images: [...pd.images, reader.result],
+      }));
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleMoveRight = () => {
+    setImgPreviewIndex((ip) => (ip + 1) % productData.images.length);
+  };
+
+  const handleMoveLeft = () => {
+    setImgPreviewIndex(
+      (ip) => (ip - 1 + productData.images.length) % productData.images.length
+    );
   };
 
   return (
@@ -52,12 +86,59 @@ function AddNewProduct() {
           onClose={() => setComponentStatus((cs) => ({ ...cs, isError: "" }))}
         />
       )}
+
       {componentStatus.isAddModalOpen && (
-        <div className={style.Background}>
+        <div className={style.background}>
           <div className={style.modal}>
             <h1>Add New Product</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form className={style.form} onSubmit={handleSubmit}>
+              <button
+                className={style.close}
+                type="button"
+                onClick={() => setComponentStatus({ isAddModalOpen: false })}>
+                X
+              </button>
+              <label>Images</label>
+              {productData.images.length > 0 && (
+                <>
+                  <div className={style.imgThumbnailContainer}>
+                    <button
+                      type="button"
+                      className={style.navButton}
+                      onClick={handleMoveLeft}>
+                      {"<"}
+                    </button>
+                    <img
+                      className={style.imgThumbnail}
+                      src={productData.images[imgPreviewIndex]}
+                      alt=""
+                    />
+                    <button
+                      type="button"
+                      className={style.navButton}
+                      onClick={handleMoveRight}>
+                      {">"}
+                    </button>
+                  </div>
+
+                  <div className={style.imgPreviewContainer}>
+                    {productData.images.map((image, index) => (
+                      <img
+                        className={`${style.imgPreview} ${
+                          imgPreviewIndex === index && style.selected
+                        }`}
+                        key={index}
+                        src={image}
+                        alt=""
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+
+              <input type="file" onChange={handleImageInput} />
+
               <label>
                 Product title:{" "}
                 <input
@@ -108,13 +189,20 @@ function AddNewProduct() {
                 />
               </label>
 
-              <button type="submit">Add Product</button>
+              <button className={style.button} type="submit">
+                Add Product
+              </button>
+              <button className={style.button} type="button">
+                close
+              </button>
             </form>
           </div>
         </div>
       )}
       {!componentStatus.isAddModalOpen && (
-        <button onClick={() => setComponentStatus({ isAddModalOpen: true })}>
+        <button
+          className={style.button}
+          onClick={() => setComponentStatus({ isAddModalOpen: true })}>
           Add Product
         </button>
       )}

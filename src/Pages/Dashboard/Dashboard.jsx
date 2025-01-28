@@ -7,7 +7,7 @@ import style from "./Dashboard.module.css";
 function Dashboard() {
   return (
     <div className={style.dashboardContainer}>
-      <h1>Dashboard</h1>
+      <h1 className={style.title}>Dashboard</h1>
       <AddNewProduct></AddNewProduct>
       <div className={style.tableContainer}>
         <ProductTable></ProductTable>
