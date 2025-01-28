@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { postProduct } from "../../../service/apiServices";
+import { isEqual } from "lodash";
 
 import { ErrorModal } from "../../../components";
 
@@ -19,13 +20,11 @@ function EditProduct({ productDetails, onClose }) {
   const [imgPreview, setImgPreview] = useState(0);
 
   const handleMoveRight = () => {
-    setImgPreview((ip) => (ip + 1) % productDetails.images.length);
+    setImgPreview((ip) => (ip + 1) % product.images.length);
   };
 
   const handleMoveLeft = () => {
-    setImgPreview(
-      (ip) => (ip - 1 + productDetails.images.length) % productDetails.images.length
-    );
+    setImgPreview((ip) => (ip - 1 + product.images.length) % product.images.length);
   };
 
   const handleInputChange = (e) => {
@@ -33,6 +32,44 @@ function EditProduct({ productDetails, onClose }) {
     setProduct((p) => ({ ...p, [name]: value }));
   };
 
+  const handleImgInput = (e) => {
+    const { files } = e.target;
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const blob = new Blob([reader.result], { type: files[0].type });
+      const blobUrl = URL.createObjectURL(blob);
+      setProduct((p) => ({
+        ...p,
+        images: p.images ? [...p.images, blobUrl] : [blobUrl],
+      }));
+    };
+
+    if (files.length > 0) {
+      reader.readAsArrayBuffer(files[0]);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (isEqual(product, productDetails)) {
+      alert("No changes were made");
+      return;
+    }
+
+    try {
+      const response = await postProduct(product);
+      alert("Product Updated");
+      console.log("Product Updated: ", response);
+    } catch (error) {
+      console.log("Error: ", error);
+    } finally {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    console.log(product);
+  });
   return (
     <div className={style.background}>
       <header className={style.header}>
@@ -58,8 +95,8 @@ function EditProduct({ productDetails, onClose }) {
             </button>
             <img
               className={style.imgThumbnail}
-              src={productDetails.images[imgPreview]}
-              alt={productDetails.title}
+              src={product.images[imgPreview]}
+              alt={product.title}
             />
             <button className={style.navButton} onClick={handleMoveRight}>
               {">"}
@@ -67,7 +104,7 @@ function EditProduct({ productDetails, onClose }) {
           </div>
 
           <div className={style.imgPreviewContainer}>
-            {productDetails.images.map((image, index) => (
+            {product.images.map((image, index) => (
               <img
                 className={`${style.imgPreview} ${
                   imgPreview === index && style.selected
@@ -79,7 +116,7 @@ function EditProduct({ productDetails, onClose }) {
             ))}
           </div>
 
-          <input type="file" name="" />
+          <input type="file" name="images" onChange={handleImgInput} />
         </section>
 
         <section className={style.details}>
@@ -123,7 +160,7 @@ function EditProduct({ productDetails, onClose }) {
           />
           <label>Rating</label>
           <input
-            className={style.input}
+            className={style.inputBrand}
             type="number"
             name="rating"
             value={product.rating}
@@ -133,8 +170,8 @@ function EditProduct({ productDetails, onClose }) {
       </div>
 
       <footer className={style.footer}>
-        <button className={style.closeFooter} onClick={() => onClose()}>
-          CLOSE
+        <button className={style.closeFooter} onClick={handleUpdate}>
+          Update
         </button>
       </footer>
     </div>

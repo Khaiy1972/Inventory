@@ -1,4 +1,13 @@
-/* General table styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+
+  background-color: var(--primary);
+
+  border-radius: 1rem;
+}
+
 .table {
   font-size: 16px;
   text-align: left;
@@ -9,7 +18,7 @@
   border-collapse: collapse;
 }
 
-.header {
+.tableHeader {
   background-color: var(--primary);
 
   th {
@@ -41,13 +50,14 @@
 }
 
 /* Search box styling */
-input[type="text"] {
+.inputSearch {
   margin: 10px 0;
   width: calc(100% - 20px);
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+
+  border: none;
 }
 
 /* Pagination styling */

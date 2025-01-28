@@ -109,6 +109,16 @@
   }
 }
 
+.inputBrand {
+  font-size: 1.5rem;
+
+  width: 50% !important;
+  margin: 0.5rem 0;
+  background-color: lightgray;
+
+  border: none;
+}
+
 .footer {
   position: sticky;
   top: 100%;

@@ -63,6 +63,7 @@ function ProductTable() {
 
   return (
     <div>
+      {/* conditional Renders */}
       {componentStatus.isEditOpen && (
         <EditProduct
           productDetails={componentStatus.isEditOpen}
@@ -76,10 +77,22 @@ function ProductTable() {
             setComponentStatus({ ...componentStatus, isModalOpen: null })
           }></DetailsModal>
       )}
-      <h1>Product List</h1>
-      <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+
+      {/* main render */}
+      <header className={style.header}>
+        <h1 className={style.title}>Product List</h1>
+
+        <input
+          className={style.searchInput}
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search Product"
+        />
+      </header>
+
       <table className={style.table}>
-        <thead className={style.header}>
+        <thead className={style.tableHeader}>
           <tr>
             <th>Thumbnail</th>
             <th>Name</th>

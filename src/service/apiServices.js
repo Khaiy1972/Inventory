@@ -22,7 +22,6 @@ export const getProduct = async (page = 1, limit = 5, search = "") => {
 
     const response = await axios.get(endpoint);
 
-    // If searching, filter results to include only the smartphone category
     let products = response.data.products;
 
     if (search.trim()) {
@@ -63,6 +62,19 @@ export const deleteProduct = async (productID) => {
     return response.data;
   } catch (error) {
     console.log("Error Deleting Product: ", error);
+
+    throw error;
+  }
+};
+
+export const updateProduct = async (productID, product) => {
+  try {
+    const response = await axios.put(`products/${productID}`, product);
+    console.log("Product Updated: ", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.log("Error Updating Product: ", error);
 
     throw error;
   }
