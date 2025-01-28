@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
 
 import style from "./ProductTable.module.css";
-import { DetailsModal } from "../../components";
+import { DetailsModal, EditProduct } from "../../components";
+import { set } from "lodash";
 
 function ProductTable() {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,7 @@ function ProductTable() {
     isLoading: false,
     isError: null,
     isModalOpen: null,
+    isEditOpen: null,
   });
   const [pagination, setPagination] = useState({ page: 1, limit: 5 });
   const [loading, setLoading] = useState(true);
@@ -39,21 +41,6 @@ function ProductTable() {
     fetchProducts();
   }, [pagination, search]);
 
-  // const handleSearch = async (e) => {
-  //   const query = e.target.value.toLowerCase();
-  //   setSearch(query);
-
-  //   const filtered = products.filter((product) =>
-  //     product.title.toLowerCase().includes(query)
-  //   );
-
-  //   if (search === "") {
-  //     setFilteredProduct(products);
-  //   } else {
-  //     setFilteredProduct(filtered);
-  //   }
-  // };
-
   const handleDelete = async (id) => {
     try {
       const response = await deleteProduct(id);
@@ -76,6 +63,12 @@ function ProductTable() {
 
   return (
     <div>
+      {componentStatus.isEditOpen && (
+        <EditProduct
+          productDetails={componentStatus.isEditOpen}
+          onClose={() => setComponentStatus({ ...componentStatus, isEditOpen: null })}
+        />
+      )}
       {componentStatus.isModalOpen && (
         <DetailsModal
           productDetails={componentStatus.isModalOpen}
@@ -103,12 +96,12 @@ function ProductTable() {
             </tr>
           ) : (
             filteredProducts.map((product, index) => (
-              <tr
-                key={index}
-                onClick={() =>
-                  setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                }>
-                <td className={style.thumbnail}>
+              <tr key={index}>
+                <td
+                  className={style.thumbnail}
+                  onClick={() =>
+                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                  }>
                   <img
                     className={style.img}
                     src={product.images[0]}
@@ -116,9 +109,28 @@ function ProductTable() {
                     style={{ width: "50px", height: "50px" }}
                   />
                 </td>
-                <td>{product.title}</td>
-                <td>{product.description}</td>
-                <td className={style.priceContainer}>
+
+                <td
+                  className={style.data}
+                  onClick={() =>
+                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                  }>
+                  {product.title}
+                </td>
+
+                <td
+                  className={style.data}
+                  onClick={() =>
+                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                  }>
+                  {product.description}
+                </td>
+
+                <td
+                  className={`${style.priceContainer} ${style.data}`}
+                  onClick={() =>
+                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                  }>
                   ${product.price}{" "}
                   <div className={style.discountBadge}>
                     {product.discountPercentage}% OFF
@@ -126,7 +138,12 @@ function ProductTable() {
                 </td>
                 <td>
                   <button onClick={() => handleDelete(product.id)}>Delete</button>
-                  <button>Edit</button>
+                  <button
+                    onClick={() =>
+                      setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
+                    }>
+                    Edit
+                  </button>
                 </td>
               </tr>
             ))

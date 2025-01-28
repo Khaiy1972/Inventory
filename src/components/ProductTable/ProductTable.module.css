@@ -36,6 +36,10 @@
   object-fit: contain;
 }
 
+.data {
+  cursor: pointer;
+}
+
 /* Search box styling */
 input[type="text"] {
   margin: 10px 0;
