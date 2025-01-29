@@ -10,10 +10,10 @@ function LoadingAnimation1() {
         r="105"
         fill="none"
         stroke="#000"
-        stroke-width="20"
-        stroke-dasharray="0 660"
-        stroke-dashoffset="-330"
-        stroke-linecap="round"></circle>
+        strokeWidth="20"
+        strokeDasharray="0 660"
+        strokeSashoffset="-330"
+        strokeLinecap="round"></circle>
       <circle
         className={`${styles.pl__ring} ${styles.pl__ring__b}`}
         cx="120"
@@ -21,10 +21,10 @@ function LoadingAnimation1() {
         r="35"
         fill="none"
         stroke="#000"
-        stroke-width="20"
-        stroke-dasharray="0 220"
-        stroke-dashoffset="-110"
-        stroke-linecap="round"></circle>
+        strokeWidth="20"
+        strokeDasharray="0 220"
+        strokeDashoffset="-110"
+        strokeLinecap="round"></circle>
       <circle
         className={`${styles.pl__ring} ${styles.pl__ring__c}`}
         cx="85"
@@ -32,9 +32,9 @@ function LoadingAnimation1() {
         r="70"
         fill="none"
         stroke="#000"
-        stroke-width="20"
-        stroke-dasharray="0 440"
-        stroke-linecap="round"></circle>
+        strokeWidth="20"
+        strokeDasharray="0 440"
+        strokeLinecap="round"></circle>
       <circle
         className={`${styles.pl__ring} ${styles.pl__ring__d}`}
         cx="155"
@@ -42,9 +42,9 @@ function LoadingAnimation1() {
         r="70"
         fill="none"
         stroke="#000"
-        stroke-width="20"
-        stroke-dasharray="0 440"
-        stroke-linecap="round"></circle>
+        strokeWidth="20"
+        strokeDasharray="0 440"
+        strokeLinecap="round"></circle>
     </svg>
   );
 }

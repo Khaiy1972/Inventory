@@ -1,18 +1,5 @@
 import axios from "./baseURL";
 
-// export const getProduct = async (page = 1, limit = 5, search = "") => {
-//   try {
-//     const skip = (page - 1) * limit;
-//     const response = await axios.get(
-//       `products/category/smartphones?skip=${skip}&limit=${limit}`
-//     );
-//     console.log("List of Products: ", response.data);
-//     return response.data;
-//   } catch (error) {
-//     console.log("Error fetching product list:", error);
-//   }
-// };
-
 export const getProduct = async (page = 1, limit = 5, search = "") => {
   try {
     const skip = (page - 1) * limit;

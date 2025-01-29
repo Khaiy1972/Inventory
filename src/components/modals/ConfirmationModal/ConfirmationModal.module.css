@@ -1,0 +1,82 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 1.5rem;
+  overflow-y: scroll;
+
+  background-color: var(--primary);
+  width: 20vw;
+  height: 40vh;
+  padding: 3rem 2rem;
+
+  border-radius: 10px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--background);
+  font-size: 2.5rem;
+  font-weight: bold;
+
+  background-color: var(--accent);
+  width: 20%;
+  aspect-ratio: 1/1;
+
+  border-radius: 100%;
+}
+
+.content {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--background);
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  background-color: var(--accent);
+  padding: 0.5rem 1rem;
+
+  border: none;
+  border-radius: 5px;
+
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--text);
+}

@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
 
 import style from "./ProductTable.module.css";
-import { DetailsModal, EditProduct, LoadingAnimation1 } from "../../components";
+import {
+  DetailsModal,
+  EditProduct,
+  ConfirmationModal,
+  LoadingAnimation1,
+} from "../../components";
 
 function ProductTable() {
-  const [products, setProducts] = useState([]);
+  const [productID, setProductID] = useState([]);
   const [total, setTotal] = useState(0);
   const [filteredProducts, setFilteredProduct] = useState([]);
   const [search, setSearch] = useState("");
@@ -14,9 +19,9 @@ function ProductTable() {
     isError: null,
     isModalOpen: null,
     isEditOpen: null,
+    isConfirmOpen: null,
   });
   const [pagination, setPagination] = useState({ page: 1, limit: 5 });
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,7 +31,6 @@ function ProductTable() {
         if (response) {
           const data = response.products;
           setTotal(Math.ceil(response.total / pagination.limit));
-          setProducts([...data]);
           setFilteredProduct([...data]);
         }
       } catch (error) {
@@ -46,6 +50,8 @@ function ProductTable() {
       alert("Item Deleted ", response);
     } catch (error) {
       console.log("Error: ", error);
+    } finally {
+      setComponentStatus((cs) => ({ ...cs, isConfirmOpen: null }));
     }
   };
 
@@ -66,12 +72,21 @@ function ProductTable() {
           onClose={() => setComponentStatus({ ...componentStatus, isEditOpen: null })}
         />
       )}
+
       {componentStatus.isModalOpen && (
         <DetailsModal
           productDetails={componentStatus.isModalOpen}
           onClose={() =>
             setComponentStatus({ ...componentStatus, isModalOpen: null })
           }></DetailsModal>
+      )}
+
+      {componentStatus.isConfirmOpen && (
+        <ConfirmationModal
+          onConfirm={() => handleDelete(productID)}
+          onClose={() => setComponentStatus((cs) => ({ ...cs, isConfirmOpen: null }))}
+          message={componentStatus.isConfirmOpen}
+        />
       )}
 
       {/* main render */}
@@ -87,7 +102,9 @@ function ProductTable() {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search Product"
         />
-        <button className={style.clearSearchButton}>Clear</button>
+        <button className={style.clearSearchButton} onClick={() => setSearch("")}>
+          Clear
+        </button>
       </section>
 
       <table className={style.table}>
@@ -165,7 +182,13 @@ function ProductTable() {
                 <td style={{ textAlign: "center" }}>
                   <button
                     className={style.actionButton}
-                    onClick={() => handleDelete(product.id)}>
+                    onClick={() => {
+                      setComponentStatus((cs) => ({
+                        ...cs,
+                        isConfirmOpen: "Are you want to Delete the product?",
+                      }));
+                      setProductID(product.id);
+                    }}>
                     Delete
                   </button>
                   <button

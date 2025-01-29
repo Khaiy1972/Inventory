@@ -38,7 +38,12 @@ function AddNewProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const areAllFieldsFilled = Object.values(productData).every(
-      (value) => value !== null && value !== undefined && value !== "" && value !== 0
+      (value) =>
+        value !== null &&
+        value !== undefined &&
+        value !== "" &&
+        value !== 0 &&
+        !(Array.isArray(value) && value.length === 0)
     );
 
     if (!areAllFieldsFilled) {
@@ -47,7 +52,7 @@ function AddNewProduct() {
     }
 
     try {
-      const response = await postProduct(productData);
+      const response = await postProduct({ ...productData });
       alert("Product Added", response);
     } catch (error) {
       alert("Can't post");
@@ -67,13 +72,17 @@ function AddNewProduct() {
     const reader = new FileReader();
 
     reader.onloadend = () => {
+      const blob = new Blob([reader.result], { type: file.type });
+      const blobUrl = URL.createObjectURL(blob);
       setProductData((pd) => ({
         ...pd,
-        images: [...pd.images, reader.result],
+        images: [...pd.images, blobUrl],
       }));
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsArrayBuffer(file);
+
+    console.log(productData.images);
   };
 
   const handleMoveRight = () => {
@@ -180,6 +189,7 @@ function AddNewProduct() {
                 Price:{" "}
                 <input
                   type="number"
+                  min={0}
                   name="price"
                   value={productData.price}
                   onChange={handleInput}
@@ -190,6 +200,7 @@ function AddNewProduct() {
                 Stock:{" "}
                 <input
                   type="number"
+                  min={0}
                   name="stock"
                   value={productData.stock}
                   onChange={handleInput}
