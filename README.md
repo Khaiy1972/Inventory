@@ -1,18 +1,18 @@
 # Inventory Management System
 
-A simple inventory management system that uses the dummyJson API to manage products. The system allows users to add, update, and delete products, as well as upload product images.
+This is a simple inventory management system that interacts with the **dummyJson API** to manage product listings. Users can **add, update, and delete** products, as well as upload product images.
 
-## Disclaimers
+## Important Notes
 
-- Adding a new product does not upload it to the dummyJson server; it only simulates the process.
-- The new product data is not stored in a useState hook because the DOM updates fetch data again from the dummyJson API.
-- Deleting a product does not remove it from the dummyJson server; it only simulates the deletion process.
-- The deleted product data is not removed from the useState hook because the DOM updates refetch the data and store it in the useState.
-- This also applies to the update function when you want to update the product data
+- **Adding a product** is a simulated process; it is **not** actually stored on the dummyJson server.
+- The **newly added product** is not retained in a `useState` hook, as the UI refresh triggers a re-fetch from the dummyJson API.
+- **Deleting a product** only mimics the removal process and does not delete it from the dummyJson server.
+- The **deleted product** remains in the state because the UI update refetches data from the API.
+- The same logic applies when **updating a product**—changes are simulated but not saved on the server.
 
-##
+## Accessing the Dashboard
 
-To access the dashboard you must log in first using the credentials of
+To log in and access the system, use the following credentials:
 
-- username: emilys
-- password: emilyspass
+- **Username:** `emilys`
+- **Password:** `emilyspass`
