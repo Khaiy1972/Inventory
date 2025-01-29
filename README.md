@@ -10,6 +10,12 @@ This is a simple inventory management system that interacts with the **dummyJson
 - The **deleted product** remains in the state because the UI update refetches data from the API.
 - The same logic applies when **updating a product**—changes are simulated but not saved on the server.
 
+## Before Starting
+
+- First install all dependencies using the command `npm install`
+- Then Start the server `npm run dev`
+- If there is nothing to see navigate to the **log in page** `http://localhost:5173/login`
+
 ## Accessing the Dashboard
 
 To log in and access the system, use the following credentials:
