@@ -54,6 +54,7 @@ function ProductTable() {
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearch(value);
+    setPagination((p) => ({ ...p, page: 1 }));
     setFilteredProduct(
       products.filter((product) =>
         product.title.toLowerCase().includes(value.toLowerCase())
@@ -138,7 +139,12 @@ function ProductTable() {
           placeholder="Search Product"
         />
         {search && (
-          <button className={style.clearSearchButton} onClick={() => setSearch("")}>
+          <button
+            className={style.clearSearchButton}
+            onClick={() => {
+              setSearch("");
+              setFilteredProduct(products);
+            }}>
             X
           </button>
         )}
