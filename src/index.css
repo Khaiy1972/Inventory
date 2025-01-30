@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap");
 
 :root {
-  --text: #094067;
+  --text: #6f707c;
   --background: #fffffe;
-  --primary: #3da9fc;
-  --secondary: #90b4ce;
+  --primary: #1481f5;
+  --secondary: #f3f4f6;
   --accent: #ef4565;
 }
 
@@ -28,8 +28,8 @@ input,
 textarea,
 th,
 td {
-  color: var(--text);
-  font-family: "Gabarito";
+  color: black;
+  font-family: sans-serif;
 
   margin: 0;
 }

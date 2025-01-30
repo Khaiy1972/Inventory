@@ -7,12 +7,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-
-        <Route
-          path="/dashboard"
-          element={<ProtectedRoute component={Dashboard} />}></Route>
+        <Route path="/" element={<Dashboard />}></Route>
       </Routes>
     </Router>
   );

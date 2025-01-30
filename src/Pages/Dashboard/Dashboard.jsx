@@ -1,18 +1,15 @@
 import React from "react";
 import { Logout } from "../../components";
-import { ProductTable, AddNewProduct } from "../../components";
+import { ProductTable } from "../../components";
 
 import style from "./Dashboard.module.css";
 
 function Dashboard() {
   return (
     <div className={style.dashboardContainer}>
-      <h1 className={style.title}>Dashboard</h1>
-      <AddNewProduct></AddNewProduct>
       <div className={style.tableContainer}>
         <ProductTable></ProductTable>
       </div>
-      <Logout />
     </div>
   );
 }

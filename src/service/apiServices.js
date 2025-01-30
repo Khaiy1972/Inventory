@@ -1,23 +1,10 @@
 import axios from "./baseURL";
 
-export const getProduct = async (page = 1, limit = 5, search = "") => {
+export const getProduct = async () => {
   try {
-    const skip = (page - 1) * limit;
-    const endpoint = search
-      ? `products/search?q=${search}&limit=0`
-      : `products/category/smartphones?skip=${skip}&limit=${limit}`;
-
+    const endpoint = `products/category/smartphones`;
     const response = await axios.get(endpoint);
-
     let products = response.data.products;
-
-    if (search.trim()) {
-      products = products.filter(
-        (product) =>
-          product.category === "smartphones" &&
-          product.title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
 
     console.log("Filtered List of Products: ", products);
 

@@ -27,7 +27,7 @@ function ProductTable() {
     const fetchProducts = async () => {
       setComponentStatus((cs) => ({ ...cs, isLoading: true }));
       try {
-        const response = await getProduct(pagination.page, pagination.limit, search);
+        const response = await getProduct();
         if (response) {
           const data = response.products;
           setTotal(Math.ceil(response.total / pagination.limit));
@@ -42,7 +42,17 @@ function ProductTable() {
     };
 
     fetchProducts();
-  }, [pagination, search]);
+  }, [pagination.limit]);
+
+  const handleSearch = (event) => {
+    const value = event.target.value;
+    setSearch(value);
+    setFilteredProduct((prevProducts) =>
+      prevProducts.filter((product) =>
+        product.title.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -91,7 +101,7 @@ function ProductTable() {
 
       {/* main render */}
       <header className={style.header}>
-        <h1 className={style.title}>Product List</h1>
+        <h1 className={style.title}>PRODUCTS DEMO</h1>
       </header>
 
       <section className={style.searchSection}>
@@ -99,21 +109,23 @@ function ProductTable() {
           className={style.searchInput}
           type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearch}
           placeholder="Search Product"
         />
-        <button className={style.clearSearchButton} onClick={() => setSearch("")}>
-          Clear
-        </button>
+        {search && (
+          <button className={style.clearSearchButton} onClick={() => setSearch("")}>
+            X
+          </button>
+        )}
       </section>
 
       <table className={style.table}>
         <thead className={style.tableHeader}>
           <tr>
-            <th style={{ width: "15%" }}>Thumbnail</th>
+            <th style={{ width: "10%" }}>Thumbnail</th>
             <th style={{ width: "10%" }}>Name</th>
             <th style={{ width: "50%" }}>Description</th>
-            <th style={{ width: "15%" }}>Price</th>
+            <th style={{ width: "10%" }}>Price</th>
             <th style={{ width: "10%" }}>Action</th>
           </tr>
         </thead>
@@ -121,7 +133,7 @@ function ProductTable() {
         <tbody className={style.body}>
           {filteredProducts.length === 0 ? (
             <tr>
-              <td colSpan={6} style={{ textAlign: "center" }}>
+              <td colSpan={6} style={{ paddingLeft: "2rem" }}>
                 No Items Found
               </td>
             </tr>
@@ -130,15 +142,16 @@ function ProductTable() {
               <td
                 colSpan={6}
                 style={{
-                  textAlign: "center",
-                  padding: "5rem",
+                  paddingLeft: "2rem",
                 }}>
-                <LoadingAnimation1 />
+                Searching...
               </td>
             </tr>
           ) : (
             filteredProducts.map((product, index) => (
-              <tr style={{ height: "10rem" }} key={index}>
+              <tr
+                style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
+                key={index}>
                 <td
                   style={{ textAlign: "center" }}
                   onClick={() =>
@@ -152,6 +165,7 @@ function ProductTable() {
                 </td>
 
                 <td
+                  style={{ fontSize: "1.1rem" }}
                   className={style.data}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
@@ -160,6 +174,7 @@ function ProductTable() {
                 </td>
 
                 <td
+                  style={{ color: "var(--text)" }}
                   className={style.data}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
@@ -168,12 +183,17 @@ function ProductTable() {
                 </td>
 
                 <td
-                  style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: "bold" }}
+                  style={{
+                    textAlign: "center",
+                    fontSize: "1.3rem",
+                    color: "var(--primary)",
+                    fontWeight: "600",
+                  }}
                   className={`${style.priceContainer} ${style.data}`}
                   onClick={() =>
                     setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                   }>
-                  ${product.price}{" "}
+                  ₱{product.price}{" "}
                   <div className={style.discountBadge}>
                     {product.discountPercentage}% OFF
                   </div>
@@ -206,7 +226,9 @@ function ProductTable() {
       </table>
 
       <footer className={style.footer}>
-        <button className={style.nav} onClick={handlePaginationLeft}>{`<`}</button>
+        <button className={style.nav} onClick={handlePaginationLeft}>
+          &#12296;
+        </button>
         <select
           className={style.dropdown}
           value={pagination.page}
@@ -215,17 +237,33 @@ function ProductTable() {
             <option value={index + 1}>{index + 1}</option>
           ))}
         </select>
-        <button className={style.nav} onClick={handlePaginationRight}>{`>`}</button>
-        {pagination.limit > 0 && <p>of {total}</p>}
-        <select
-          className={`${style.dropdown} ${style.limit}`}
-          value={pagination.limit}
-          onChange={(e) => setPagination((p) => ({ ...p, limit: e.target.value }))}>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-        </select>
+        <button className={style.nav} onClick={handlePaginationRight}>
+          &#12297;
+        </button>
+        {pagination.limit > 0 && <p>of {total} pages (16 items)</p>}
+        <div style={{ position: "relative" }}>
+          <select
+            className={`${style.dropdown} ${style.limit}`}
+            value={pagination.limit}
+            onChange={(e) => setPagination((p) => ({ ...p, limit: e.target.value }))}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          <p
+            style={{
+              position: "absolute",
+              top: "-10px",
+              left: "10px",
+              color: "var(--text)",
+              fontSize: "0.9rem",
+              backgroundColor: "#ffffff",
+              padding: "0 8px",
+            }}>
+            Per Page
+          </p>
+        </div>
       </footer>
     </div>
   );
