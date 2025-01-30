@@ -8,6 +8,7 @@ import {
   ConfirmationModal,
   AddNewProduct,
 } from "../../components";
+import { set } from "lodash";
 
 function ProductTable() {
   const [productID, setProductID] = useState([]);
@@ -59,7 +60,14 @@ function ProductTable() {
   const handleDelete = async (id) => {
     try {
       const response = await deleteProduct(id);
-      alert("Item Deleted ", response);
+      setProducts((p) =>
+        p.map((product) => (product.id === response.id ? response : product))
+      );
+      setFilteredProduct((p) =>
+        p.map((product) => (product.id === response.id ? response : product))
+      );
+      console.log("Product Deleted: ", response);
+      alert("Product Deleted", response);
     } catch (error) {
       console.log("Error: ", error);
     } finally {
@@ -156,83 +164,85 @@ function ProductTable() {
               </td>
             </tr>
           ) : (
-            filteredProducts.map((product, index) => (
-              <tr
-                style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
-                key={index}>
-                <td
-                  style={{ textAlign: "center" }}
-                  onClick={() =>
-                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                  }>
-                  <img
-                    className={style.img}
-                    src={
-                      typeof product.images[0] === "object"
-                        ? URL.createObjectURL(product.images[0])
-                        : product.images[0]
-                    }
-                    alt={product.title}
-                  />
-                </td>
-
-                <td
-                  style={{ fontSize: "1.1rem" }}
-                  className={style.data}
-                  onClick={() =>
-                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                  }>
-                  {product.title}
-                </td>
-
-                <td
-                  style={{ color: "var(--text)" }}
-                  className={style.data}
-                  onClick={() =>
-                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                  }>
-                  {product.description}
-                </td>
-
-                <td
-                  style={{
-                    textAlign: "center",
-                    fontSize: "1.3rem",
-                    color: "var(--primary)",
-                    fontWeight: "600",
-                  }}
-                  className={`${style.priceContainer} ${style.data}`}
-                  onClick={() =>
-                    setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                  }>
-                  ₱{product.price}{" "}
-                  <div className={style.discountBadge}>
-                    {product.discountPercentage}% OFF
-                  </div>
-                </td>
-
-                <td style={{ textAlign: "center" }}>
-                  <button
-                    className={style.actionButton}
-                    onClick={() => {
-                      setComponentStatus((cs) => ({
-                        ...cs,
-                        isConfirmOpen: "Are you want to Delete the product?",
-                      }));
-                      setProductID(product.id);
-                    }}>
-                    Delete
-                  </button>
-                  <button
-                    className={style.actionButton}
+            filteredProducts
+              .filter((product) => !product.isDeleted)
+              .map((product, index) => (
+                <tr
+                  style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
+                  key={index}>
+                  <td
+                    style={{ textAlign: "center" }}
                     onClick={() =>
-                      setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
+                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                     }>
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            ))
+                    <img
+                      className={style.img}
+                      src={
+                        typeof product.images[0] === "object"
+                          ? URL.createObjectURL(product.images[0])
+                          : product.images[0]
+                      }
+                      alt={product.title}
+                    />
+                  </td>
+
+                  <td
+                    style={{ fontSize: "1.1rem" }}
+                    className={style.data}
+                    onClick={() =>
+                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                    }>
+                    {product.title}
+                  </td>
+
+                  <td
+                    style={{ color: "var(--text)" }}
+                    className={style.data}
+                    onClick={() =>
+                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                    }>
+                    {product.description}
+                  </td>
+
+                  <td
+                    style={{
+                      textAlign: "center",
+                      fontSize: "1.3rem",
+                      color: "var(--primary)",
+                      fontWeight: "600",
+                    }}
+                    className={`${style.priceContainer} ${style.data}`}
+                    onClick={() =>
+                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                    }>
+                    ₱{product.price}{" "}
+                    <div className={style.discountBadge}>
+                      {product.discountPercentage}% OFF
+                    </div>
+                  </td>
+
+                  <td style={{ textAlign: "center" }}>
+                    <button
+                      className={style.actionButton}
+                      onClick={() => {
+                        setComponentStatus((cs) => ({
+                          ...cs,
+                          isConfirmOpen: "Are you want to Delete the product?",
+                        }));
+                        setProductID(product.id);
+                      }}>
+                      Delete
+                    </button>
+                    <button
+                      className={style.actionButton}
+                      onClick={() =>
+                        setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
+                      }>
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))
           )}
         </tbody>
       </table>

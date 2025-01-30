@@ -17,6 +17,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  background-color: lightblue;
+  width: 100%;
   padding: 1rem 0;
 }
 
@@ -25,7 +28,7 @@
 
   background-color: #ffffff;
   height: 3rem;
-  width: 100%;
+  width: 90%;
   padding: 2rem 1rem;
 
   border: 2px solid var(--text);
@@ -34,7 +37,7 @@
 
 .clearSearchButton {
   position: absolute;
-  right: 1rem;
+  right: 12%;
 
   color: black;
   font-size: 1.3rem;
