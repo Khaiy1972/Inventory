@@ -88,11 +88,17 @@ function ProductTable() {
     setFilteredProduct((p) => [...p, { ...productData }]);
   };
 
+  const handleUpdate = async (product) => {
+    setProducts((p) => p.map((p) => (p.id === product.id ? product : p)));
+    setFilteredProduct((p) => p.map((p) => (p.id === product.id ? product : p)));
+  };
+
   return (
     <div className={style.container}>
       {/* conditional Renders */}
       {componentStatus.isEditOpen && (
         <EditProduct
+          updatedProduct={handleUpdate}
           productDetails={componentStatus.isEditOpen}
           onClose={() => setComponentStatus({ ...componentStatus, isEditOpen: null })}
         />

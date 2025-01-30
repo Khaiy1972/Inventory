@@ -13,12 +13,12 @@
 /* Search box styling =============================== */
 .searchSection {
   position: relative;
+  z-index: 2;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  background-color: lightblue;
   width: 100%;
   padding: 1rem 0;
 }

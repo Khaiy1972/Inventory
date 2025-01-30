@@ -6,7 +6,7 @@ import { ErrorModal } from "../../../components";
 
 import style from "./EditProduct.module.css";
 
-function EditProduct({ productDetails, onClose }) {
+function EditProduct({ productDetails, onClose, updatedProduct }) {
   const [product, setProduct] = useState({
     ...productDetails,
   });
@@ -62,6 +62,7 @@ function EditProduct({ productDetails, onClose }) {
     try {
       const response = await updateProduct(productDetails.id, { ...toUpdate });
       alert("Product Updated");
+      updatedProduct(response);
       console.log("Product Updated: ", response);
     } catch (error) {
       console.log("Error: ", error);
