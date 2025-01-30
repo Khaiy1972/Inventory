@@ -47,6 +47,10 @@ function ProductTable() {
     fetchProducts();
   }, [pagination.limit]);
 
+  useEffect(() => {
+    setTotal(Math.ceil(filteredProducts.length / pagination.limit));
+  }, [filteredProducts, pagination.limit]);
+
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearch(value);
@@ -161,17 +165,17 @@ function ProductTable() {
             </tr>
           ) : componentStatus.isLoading ? (
             <tr>
-              <td
-                colSpan={6}
-                style={{
-                  paddingLeft: "2rem",
-                }}>
+              <td colSpan={6} style={{ paddingLeft: "2rem" }}>
                 Searching...
               </td>
             </tr>
           ) : (
             filteredProducts
               .filter((product) => !product.isDeleted)
+              .slice(
+                (pagination.page - 1) * pagination.limit,
+                pagination.page * pagination.limit
+              ) // Slicing for pagination
               .map((product, index) => (
                 <tr
                   style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
@@ -191,7 +195,6 @@ function ProductTable() {
                       alt={product.title}
                     />
                   </td>
-
                   <td
                     style={{ fontSize: "1.1rem" }}
                     className={style.data}
@@ -200,7 +203,6 @@ function ProductTable() {
                     }>
                     {product.title}
                   </td>
-
                   <td
                     style={{ color: "var(--text)" }}
                     className={style.data}
@@ -209,7 +211,6 @@ function ProductTable() {
                     }>
                     {product.description}
                   </td>
-
                   <td
                     style={{
                       textAlign: "center",
@@ -226,14 +227,13 @@ function ProductTable() {
                       {product.discountPercentage}% OFF
                     </div>
                   </td>
-
                   <td style={{ textAlign: "center" }}>
                     <button
                       className={style.actionButton}
                       onClick={() => {
                         setComponentStatus((cs) => ({
                           ...cs,
-                          isConfirmOpen: "Are you want to Delete the product?",
+                          isConfirmOpen: "Are you sure you want to delete this product?",
                         }));
                         setProductID(product.id);
                       }}>
@@ -260,9 +260,13 @@ function ProductTable() {
         <select
           className={style.dropdown}
           value={pagination.page}
-          onChange={(e) => setPagination((p) => ({ ...p, page: e.target.value }))}>
+          onChange={(e) =>
+            setPagination((p) => ({ ...p, page: Number(e.target.value) }))
+          }>
           {Array.from({ length: total }).map((_, index) => (
-            <option value={index + 1}>{index + 1}</option>
+            <option key={index} value={index + 1}>
+              {index + 1}
+            </option>
           ))}
         </select>
         <button className={style.nav} onClick={handlePaginationRight}>
