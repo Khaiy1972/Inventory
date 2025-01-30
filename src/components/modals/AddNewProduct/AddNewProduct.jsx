@@ -6,7 +6,7 @@ import { ErrorModal } from "../../../components";
 
 import style from "./AddNewProduct.module.css";
 
-function AddNewProduct() {
+function AddNewProduct({ newProduct }) {
   const emptyProductData = {
     title: "",
     brand: "",
@@ -27,6 +27,7 @@ function AddNewProduct() {
     price: 0,
     stock: 0,
     images: [],
+    rating: 1,
   });
   const [imgPreviewIndex, setImgPreviewIndex] = useState(0);
 
@@ -53,7 +54,10 @@ function AddNewProduct() {
 
     try {
       const response = await postProduct({ ...productData });
+      console.log("Product Added: ", response);
+
       alert("Product Added", response);
+      newProduct(response);
     } catch (error) {
       alert("Can't post");
     } finally {

@@ -6,13 +6,14 @@ import {
   DetailsModal,
   EditProduct,
   ConfirmationModal,
-  LoadingAnimation1,
+  AddNewProduct,
 } from "../../components";
 
 function ProductTable() {
   const [productID, setProductID] = useState([]);
   const [total, setTotal] = useState(0);
   const [filteredProducts, setFilteredProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [componentStatus, setComponentStatus] = useState({
     isLoading: false,
@@ -31,6 +32,7 @@ function ProductTable() {
         if (response) {
           const data = response.products;
           setTotal(Math.ceil(response.total / pagination.limit));
+          setProducts([...data]);
           setFilteredProduct([...data]);
         }
       } catch (error) {
@@ -47,8 +49,8 @@ function ProductTable() {
   const handleSearch = (event) => {
     const value = event.target.value;
     setSearch(value);
-    setFilteredProduct((prevProducts) =>
-      prevProducts.filter((product) =>
+    setFilteredProduct(
+      products.filter((product) =>
         product.title.toLowerCase().includes(value.toLowerCase())
       )
     );
@@ -71,6 +73,11 @@ function ProductTable() {
 
   const handlePaginationLeft = () => {
     setPagination((p) => ({ ...p, page: p.page > 1 ? p.page - 1 : total }));
+  };
+
+  const handleAddNewProduct = (productData) => {
+    setProducts((p) => [...p, { ...productData }]);
+    setFilteredProduct((p) => [...p, { ...productData }]);
   };
 
   return (
@@ -117,6 +124,7 @@ function ProductTable() {
             X
           </button>
         )}
+        <AddNewProduct newProduct={handleAddNewProduct}></AddNewProduct>
       </section>
 
       <table className={style.table}>
@@ -159,7 +167,11 @@ function ProductTable() {
                   }>
                   <img
                     className={style.img}
-                    src={product.images[0]}
+                    src={
+                      typeof product.images[0] === "object"
+                        ? URL.createObjectURL(product.images[0])
+                        : product.images[0]
+                    }
                     alt={product.title}
                   />
                 </td>
