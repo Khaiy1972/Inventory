@@ -45,7 +45,7 @@ function ProductTable() {
     };
 
     fetchProducts();
-  }, [pagination.limit]);
+  }, []);
 
   useEffect(() => {
     setTotal(Math.ceil(filteredProducts.length / pagination.limit));
@@ -278,12 +278,19 @@ function ProductTable() {
         <button className={style.nav} onClick={handlePaginationRight}>
           &#12297;
         </button>
-        {pagination.limit > 0 && <p>of {total} pages (16 items)</p>}
+        {pagination.limit > 0 && (
+          <p>
+            of {total} pages ({products.length})
+          </p>
+        )}
         <div style={{ position: "relative" }}>
           <select
             className={`${style.dropdown} ${style.limit}`}
             value={pagination.limit}
-            onChange={(e) => setPagination((p) => ({ ...p, limit: e.target.value }))}>
+            onChange={(e) => {
+              setPagination((p) => ({ ...p, limit: e.target.value }));
+              setPagination((p) => ({ ...p, page: 1 }));
+            }}>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
