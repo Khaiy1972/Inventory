@@ -3,6 +3,8 @@ import { getProduct, deleteProduct } from "../../service/apiServices";
 import { MenuItem, Select, TextField, InputLabel, FormControl } from "@mui/material";
 import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
+import { useViewport } from "../../lib";
+
 import style from "./ProductTable.module.css";
 import {
   DetailsModal,
@@ -10,8 +12,10 @@ import {
   ConfirmationModal,
   AddNewProduct,
 } from "../../components";
+import { Toaster, toast } from "sonner";
 
 function ProductTable() {
+  const { viewportWidth } = useViewport();
   const [productID, setProductID] = useState([]);
   const [total, setTotal] = useState(0);
   const [filteredProducts, setFilteredProduct] = useState([]);
@@ -73,7 +77,7 @@ function ProductTable() {
         p.map((product) => (product.id === response.id ? response : product))
       );
       console.log("Product Deleted: ", response);
-      alert("Product Deleted", response);
+      toast.success("Product Deleted Successfully");
     } catch (error) {
       console.log("Error: ", error);
     } finally {
@@ -102,7 +106,8 @@ function ProductTable() {
   };
 
   return (
-    <div className={style.container}>
+    <div className="p-4">
+      <Toaster richColors position="top-center" />
       {/* conditional Renders */}
       {componentStatus.isEditOpen && (
         <EditProduct
@@ -129,11 +134,13 @@ function ProductTable() {
       )}
 
       {/* main render */}
-      <header className={style.header}>
-        <h1 className="text-3xl font-bold">PRODUCTS DEMO</h1>
+      <header className="bg-blue-500 p-4 text-center">
+        <h1 className="md:text-3xl font-bold text-white">
+          PRODUCTS DEMO {viewportWidth}
+        </h1>
       </header>
 
-      <section className="flex justify-between items-center py-4 gap-4">
+      <section className="md:flex justify-between items-center py-4 gap-4">
         <TextField
           fullWidth
           id="outlined-basic"
@@ -157,12 +164,12 @@ function ProductTable() {
 
       <table className={style.table}>
         <thead className="bg-gray-100">
-          <tr className="h-20">
-            <th className="w-[10%] p-4">Thumbnail</th>
-            <th className="w-[10%] p-4 ">Name</th>
-            <th className="w-1/2 p-4 ">Description</th>
-            <th className="w-[10%] p-4 text-center">Price</th>
-            <th className="w-[10%] p-4 text-center">Action</th>
+          <tr className="md:h-20">
+            <th className="md:w-[10%] p-4">Thumbnail</th>
+            <th className="md:w-[10%] p-4 ">Name</th>
+            <th className="md:w-1/2 p-4 ">Description</th>
+            <th className="md:w-[10%] p-4 text-center">Price</th>
+            <th className="md:w-[10%] p-4 text-center">Action</th>
           </tr>
         </thead>
 
