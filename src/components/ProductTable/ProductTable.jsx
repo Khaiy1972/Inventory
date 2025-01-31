@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
+import { MenuItem, Select, TextField, InputLabel, FormControl } from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 import style from "./ProductTable.module.css";
 import {
@@ -8,7 +10,6 @@ import {
   ConfirmationModal,
   AddNewProduct,
 } from "../../components";
-import { set } from "lodash";
 
 function ProductTable() {
   const [productID, setProductID] = useState([]);
@@ -81,10 +82,12 @@ function ProductTable() {
   };
 
   const handlePaginationRight = () => {
+    if (pagination.page === total) return;
     setPagination((p) => ({ ...p, page: p.page < total ? p.page + 1 : 1 }));
   };
 
   const handlePaginationLeft = () => {
+    if (pagination.page === 1) return;
     setPagination((p) => ({ ...p, page: p.page > 1 ? p.page - 1 : total }));
   };
 
@@ -127,16 +130,17 @@ function ProductTable() {
 
       {/* main render */}
       <header className={style.header}>
-        <h1 className={style.title}>PRODUCTS DEMO</h1>
+        <h1 className="text-3xl font-bold">PRODUCTS DEMO</h1>
       </header>
 
-      <section className={style.searchSection}>
-        <input
-          className={style.searchInput}
-          type="text"
+      <section className="flex justify-between items-center py-4 gap-4">
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          label="Search Product"
+          variant="outlined"
           value={search}
           onChange={handleSearch}
-          placeholder="Search Product"
         />
         {search && (
           <button
@@ -152,13 +156,13 @@ function ProductTable() {
       </section>
 
       <table className={style.table}>
-        <thead className={style.tableHeader}>
-          <tr>
-            <th style={{ width: "10%" }}>Thumbnail</th>
-            <th style={{ width: "10%" }}>Name</th>
-            <th style={{ width: "50%" }}>Description</th>
-            <th style={{ width: "10%" }}>Price</th>
-            <th style={{ width: "10%" }}>Action</th>
+        <thead className="bg-gray-100">
+          <tr className="h-20">
+            <th className="w-[10%] p-4">Thumbnail</th>
+            <th className="w-[10%] p-4 ">Name</th>
+            <th className="w-1/2 p-4 ">Description</th>
+            <th className="w-[10%] p-4 text-center">Price</th>
+            <th className="w-[10%] p-4 text-center">Action</th>
           </tr>
         </thead>
 
@@ -187,12 +191,12 @@ function ProductTable() {
                   style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
                   key={index}>
                   <td
-                    style={{ textAlign: "center" }}
+                    className="text-center"
                     onClick={() =>
                       setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                     }>
                     <img
-                      className={style.img}
+                      className="h-40 w-auto inline-block object-contain"
                       src={
                         typeof product.images[0] === "object"
                           ? URL.createObjectURL(product.images[0])
@@ -218,17 +222,11 @@ function ProductTable() {
                     {product.description}
                   </td>
                   <td
-                    style={{
-                      textAlign: "center",
-                      fontSize: "1.3rem",
-                      color: "var(--primary)",
-                      fontWeight: "600",
-                    }}
-                    className={`${style.priceContainer} ${style.data}`}
+                    className="text-center text-blue-500 font-semibold text-2xl"
                     onClick={() =>
                       setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                     }>
-                    ₱{product.price}{" "}
+                    <h3 className="text-center text-blue-500">₱{product.price} </h3>
                     <div className={style.discountBadge}>
                       {product.discountPercentage}% OFF
                     </div>
@@ -260,55 +258,46 @@ function ProductTable() {
       </table>
 
       <footer className={style.footer}>
-        <button className={style.nav} onClick={handlePaginationLeft}>
-          &#12296;
+        <button className="bg-transparent" onClick={handlePaginationLeft}>
+          <ArrowBackIosNew />
         </button>
-        <select
-          className={style.dropdown}
+        <Select
+          sx={{ width: "5rem" }}
           value={pagination.page}
           onChange={(e) =>
             setPagination((p) => ({ ...p, page: Number(e.target.value) }))
           }>
           {Array.from({ length: total }).map((_, index) => (
-            <option key={index} value={index + 1}>
+            <MenuItem key={index} value={index + 1}>
               {index + 1}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
         <button className={style.nav} onClick={handlePaginationRight}>
-          &#12297;
+          <ArrowForwardIos />
         </button>
         {pagination.limit > 0 && (
           <p>
             of {total} pages ({products.length})
           </p>
         )}
-        <div style={{ position: "relative" }}>
-          <select
-            className={`${style.dropdown} ${style.limit}`}
+        <FormControl style={{ position: "relative" }}>
+          <InputLabel id="per_page">Per Page</InputLabel>
+          <Select
+            sx={{ width: "7rem" }}
+            labelId="per_page"
+            label="Per Page"
             value={pagination.limit}
             onChange={(e) => {
               setPagination((p) => ({ ...p, limit: e.target.value }));
               setPagination((p) => ({ ...p, page: 1 }));
             }}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-          </select>
-          <p
-            style={{
-              position: "absolute",
-              top: "-10px",
-              left: "10px",
-              color: "var(--text)",
-              fontSize: "0.9rem",
-              backgroundColor: "#ffffff",
-              padding: "0 8px",
-            }}>
-            Per Page
-          </p>
-        </div>
+            <MenuItem value="5">5</MenuItem>
+            <MenuItem value="10">10</MenuItem>
+            <MenuItem value="15">15</MenuItem>
+            <MenuItem value="20">20</MenuItem>
+          </Select>
+        </FormControl>
       </footer>
     </div>
   );

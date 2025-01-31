@@ -1,6 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { isEqual } from "lodash";
+import React, { useState } from "react";
+import { styled } from "@mui/material/styles";
+import { Button, TextField } from "@mui/material";
+import { Toaster, toast } from "sonner";
 import { postProduct } from "../../../service/apiServices";
+import {
+  Close,
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  CloudUpload,
+} from "@mui/icons-material";
 
 import { ErrorModal } from "../../../components";
 
@@ -31,6 +39,18 @@ function AddNewProduct({ newProduct }) {
   });
   const [imgPreviewIndex, setImgPreviewIndex] = useState(0);
 
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
+
   const handleInput = (event) => {
     const { name, value } = event.target;
     setProductData((pd) => ({ ...pd, [name]: value }));
@@ -56,7 +76,7 @@ function AddNewProduct({ newProduct }) {
       const response = await postProduct({ ...productData });
       console.log("Product Added: ", response);
 
-      alert("Product Added", response);
+      toast.success("Product Added Successfully");
       newProduct(response);
     } catch (error) {
       alert("Can't post");
@@ -101,6 +121,7 @@ function AddNewProduct({ newProduct }) {
 
   return (
     <>
+      <Toaster position="top-center" richColors />
       {componentStatus.isError && (
         <ErrorModal
           errorMessage={componentStatus.isError}
@@ -109,17 +130,26 @@ function AddNewProduct({ newProduct }) {
       )}
 
       {componentStatus.isAddModalOpen && (
-        <div className={style.background}>
-          <div className={style.modal}>
-            <header className={style.header}>
-              <h1>Add New Product</h1>
-              <button className={style.close} type="button" onClick={handleClose}>
-                X
+        <div className="fixed top-0 left-0 w-full h-full bg-[#00000069] z-50 flex justify-center items-center">
+          <div className="bg-white w-[50vw] h-[90vh] rounded-lg shadow-lg position-relative ">
+            <header className="bg-white py-5 px-9 flex justify-between items-center shadow-md sticky top-0 ">
+              <h1 className="font-bold text-3xl">Add New Product</h1>
+              <button
+                className="font-bold text-2xl cursor-pointer"
+                type="button"
+                onClick={handleClose}>
+                <Close sx={{ fontSize: 30 }} />
               </button>
             </header>
 
-            <form className={style.form} onSubmit={handleSubmit}>
-              <label>Images</label>
+            <form
+              className="bg-gray-100 flex flex-col p-12 gap-6 overflow-scroll h-[74vh]"
+              onSubmit={handleSubmit}>
+              <label
+                className="text-2xl font-bold
+              ">
+                Images
+              </label>
               {productData.images.length > 0 && (
                 <>
                   <div className={style.imgThumbnailContainer}>
@@ -127,7 +157,7 @@ function AddNewProduct({ newProduct }) {
                       type="button"
                       className={style.navButton}
                       onClick={handleMoveLeft}>
-                      {"<"}
+                      <ArrowBackIosNew />
                     </button>
                     <img
                       className={style.imgThumbnail}
@@ -138,7 +168,7 @@ function AddNewProduct({ newProduct }) {
                       type="button"
                       className={style.navButton}
                       onClick={handleMoveRight}>
-                      {">"}
+                      <ArrowForwardIos />
                     </button>
                   </div>
 
@@ -157,75 +187,78 @@ function AddNewProduct({ newProduct }) {
                 </>
               )}
 
-              <input type="file" onChange={handleImageInput} />
-
-              <label>
-                Product title:{" "}
-                <input
-                  type="text"
-                  name="title"
-                  value={productData.title}
-                  onChange={handleInput}
-                />
-              </label>
-
-              <label>
-                Brand:{" "}
-                <input
-                  type="text"
-                  name="brand"
-                  value={productData.brand}
-                  onChange={handleInput}
-                />
-              </label>
-
-              <label>
-                Description:{" "}
-                <input
-                  type="text"
-                  name="description"
-                  value={productData.description}
-                  onChange={handleInput}
-                />
-              </label>
-
-              <label>
-                Price:{" "}
-                <input
-                  type="number"
-                  min={0}
-                  name="price"
-                  value={productData.price}
-                  onChange={handleInput}
-                />
-              </label>
-
-              <label>
-                Stock:{" "}
-                <input
-                  type="number"
-                  min={0}
-                  name="stock"
-                  value={productData.stock}
-                  onChange={handleInput}
-                />
-              </label>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUpload />}>
+                Upload Image
+                <VisuallyHiddenInput type="file" onChange={handleImageInput} multiple />
+              </Button>
+              <TextField
+                label="Product Name"
+                variant="filled"
+                type="text"
+                name="title"
+                value={productData.title}
+                onChange={handleInput}
+              />
+              <TextField
+                label="Brand"
+                variant="filled"
+                type="text"
+                name="brand"
+                value={productData.brand}
+                onChange={handleInput}
+              />
+              <TextField
+                label="Description"
+                variant="filled"
+                type="text"
+                name="description"
+                value={productData.description}
+                onChange={handleInput}
+              />
+              <TextField
+                label="Price"
+                variant="filled"
+                type="number"
+                min={0}
+                name="price"
+                value={productData.price}
+                onChange={handleInput}
+              />
+              <TextField
+                label="Stock"
+                variant="filled"
+                type="number"
+                min={0}
+                name="stock"
+                value={productData.stock}
+                onChange={handleInput}
+              />
             </form>
 
-            <footer className={style.footer}>
-              <button className={style.button} type="submit" onClick={handleSubmit}>
+            <footer className="sticky bottom-0 right-0 bg-white w-full  p-4 flex justify-end shadow-[0 10px 10px 0 rgba(0, 0, 0, 0.1)]">
+              <Button
+                variant="contained"
+                className=""
+                type="submit"
+                onClick={handleSubmit}>
                 Add Product
-              </button>
+              </Button>
             </footer>
           </div>
         </div>
       )}
       {!componentStatus.isAddModalOpen && (
-        <button
-          className={style.button}
+        <Button
+          variant="contained"
+          size="small"
           onClick={() => setComponentStatus({ isAddModalOpen: true })}>
           Add Product
-        </button>
+        </Button>
       )}
     </>
   );

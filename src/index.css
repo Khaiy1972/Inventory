@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap");
+@import "tailwindcss";
+/* @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap"); */
 
 :root {
   --text: #6f707c;
@@ -10,15 +11,12 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 
   transition: all 0.18s ease-in-out;
 }
 
 h1,
 h2,
-h3,
 h4,
 p,
 label,
