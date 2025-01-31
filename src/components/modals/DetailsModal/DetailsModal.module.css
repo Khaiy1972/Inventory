@@ -61,7 +61,7 @@
 }
 
 .close:hover {
-  color: var(--accent);
+  color: var(--primary);
 }
 
 .imgThumbnailContainer {
@@ -86,7 +86,7 @@
 }
 
 .imgPreview.selected {
-  border: 1px solid var(--accent);
+  border: 1px solid var(--primary);
 }
 
 .navButton {
@@ -103,7 +103,7 @@
 }
 
 .navButton:hover {
-  background-color: var(--accent);
+  background-color: var(--primary);
 }
 
 .details {
@@ -145,7 +145,7 @@
   color: var(--background);
   font-size: 1.2rem;
 
-  background-color: var(--accent);
+  background-color: var(--primary);
   margin-right: 2rem;
   padding: 0.5rem 1rem;
 
