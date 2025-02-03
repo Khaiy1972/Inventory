@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
 import { MenuItem, Select, TextField, InputLabel, FormControl } from "@mui/material";
-import { ArrowBackIosNew, ArrowForwardIos, Star, Close } from "@mui/icons-material";
+import {
+  ArrowBackIosNew,
+  ArrowForwardIos,
+  Star,
+  Close,
+  MoreVert,
+} from "@mui/icons-material";
 
 import { useViewport } from "../../lib";
 
@@ -11,6 +17,7 @@ import {
   EditProduct,
   ConfirmationModal,
   AddNewProduct,
+  MobileEditModal,
 } from "../../components";
 import { Toaster, toast } from "sonner";
 
@@ -27,6 +34,7 @@ function ProductTable() {
     isModalOpen: null,
     isEditOpen: null,
     isConfirmOpen: null,
+    isShowMobileMore: null,
   });
   const [pagination, setPagination] = useState({ page: 1, limit: 5 });
 
@@ -68,6 +76,7 @@ function ProductTable() {
   };
 
   const handleDelete = async (id) => {
+    toast.loading("Deleting Product...");
     try {
       const response = await deleteProduct(id);
       setProducts((p) =>
@@ -77,11 +86,12 @@ function ProductTable() {
         p.map((product) => (product.id === response.id ? response : product))
       );
       console.log("Product Deleted: ", response);
-      toast.success("Product Deleted Successfully");
     } catch (error) {
       console.log("Error: ", error);
     } finally {
+      toast.success("Product Deleted Successfully");
       setComponentStatus((cs) => ({ ...cs, isConfirmOpen: null }));
+      toast.dismiss();
     }
   };
 
@@ -109,11 +119,38 @@ function ProductTable() {
     <div className="p-4 w-full">
       <Toaster richColors position="top-center" />
       {/* conditional Renders */}
+      {componentStatus.isShowMobileMore && (
+        <MobileEditModal
+          product={componentStatus.isShowMobileMore}
+          onClose={() =>
+            setComponentStatus({ ...componentStatus, isShowMobileMore: null })
+          }
+          onDelete={() => {
+            setComponentStatus({
+              ...componentStatus,
+              isConfirmOpen: "Are you sure you want to delete this product?",
+              isShowMobileMore: null,
+            });
+            setProductID(componentStatus.isShowMobileMore.id);
+          }}
+          onEdit={() =>
+            setComponentStatus((cs) => ({
+              ...cs,
+              isEditOpen: componentStatus.isShowMobileMore,
+            }))
+          }
+        />
+      )}
       {componentStatus.isEditOpen && (
         <EditProduct
           updatedProduct={handleUpdate}
           productDetails={componentStatus.isEditOpen}
-          onClose={() => setComponentStatus({ ...componentStatus, isEditOpen: null })}
+          onClose={() =>
+            setComponentStatus({
+              ...componentStatus,
+              isEditOpen: null,
+            })
+          }
         />
       )}
 
@@ -279,7 +316,20 @@ function ProductTable() {
                       />
 
                       <div className="flex flex-col gap-3">
-                        <h1 className="text-lg font-bold">{product.title}</h1>
+                        <h1 className="relative text-lg font-bold">
+                          {product.title}{" "}
+                          <span
+                            className="absolute right-0 z-10 cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setComponentStatus({
+                                ...componentStatus,
+                                isShowMobileMore: product,
+                              });
+                            }}>
+                            <MoreVert />
+                          </span>
+                        </h1>
                         <p className="line-clamp-2 text-gray-500 text-sm">
                           {product.description}
                         </p>
