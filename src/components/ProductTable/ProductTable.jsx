@@ -137,6 +137,7 @@ function ProductTable() {
             setComponentStatus((cs) => ({
               ...cs,
               isEditOpen: componentStatus.isShowMobileMore,
+              isShowMobileMore: null,
             }))
           }
         />
@@ -351,7 +352,9 @@ function ProductTable() {
       </table>
 
       <footer className="flex gap-1 md:gap-4 items-center">
-        <button className="bg-transparent" onClick={handlePaginationLeft}>
+        <button
+          className={`bg-transparent ${pagination.page === 1 || "cursor-pointer"}`}
+          onClick={handlePaginationLeft}>
           <ArrowBackIosNew />
         </button>
         <Select
@@ -366,7 +369,9 @@ function ProductTable() {
             </MenuItem>
           ))}
         </Select>
-        <button className={style.nav} onClick={handlePaginationRight}>
+        <button
+          className={`bg-transparent ${pagination.page === total || "cursor-pointer"}`}
+          onClick={handlePaginationRight}>
           <ArrowForwardIos />
         </button>
         {pagination.limit > 0 && (

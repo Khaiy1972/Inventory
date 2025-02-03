@@ -42,7 +42,9 @@ function DetailsModal({ productDetails, onClose }) {
         <section className="flex flex-col py-10 gap-4 overflow-y-scroll">
           <section className="flex flex-col gap-8">
             <div className="flex items-center justify-evenly">
-              <button className="md: text-lg" onClick={handleMoveLeft}>
+              <button
+                className="text-lg bg-transparent py-20 px-4 rounded-2xl cursor-pointer hover:bg-blue-500 hover:text-white"
+                onClick={handleMoveLeft}>
                 <ArrowBackIosNew />
               </button>
               <img
@@ -50,7 +52,9 @@ function DetailsModal({ productDetails, onClose }) {
                 src={productDetails.images[imgPreview]}
                 alt={productDetails.title}
               />
-              <button className="md: text-lg" onClick={handleMoveRight}>
+              <button
+                className="text-lg bg-transparent py-20 px-4 rounded-2xl cursor-pointer hover:bg-blue-500 hover:text-white"
+                onClick={handleMoveRight}>
                 <ArrowForwardIos />
               </button>
             </div>

@@ -36,7 +36,7 @@ function AddNewProduct({ newProduct }) {
     price: 0,
     stock: 0,
     images: [],
-    rating: 0,
+    rating: 1,
   });
   const [imgPreviewIndex, setImgPreviewIndex] = useState(0);
 
