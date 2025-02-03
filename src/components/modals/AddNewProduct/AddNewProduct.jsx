@@ -22,6 +22,7 @@ function AddNewProduct({ newProduct }) {
     price: 0,
     stock: 0,
     images: [],
+    rating: 0,
   };
   const [componentStatus, setComponentStatus] = useState({
     isAddModalOpen: false,
@@ -35,7 +36,7 @@ function AddNewProduct({ newProduct }) {
     price: 0,
     stock: 0,
     images: [],
-    rating: 1,
+    rating: 0,
   });
   const [imgPreviewIndex, setImgPreviewIndex] = useState(0);
 
@@ -131,7 +132,7 @@ function AddNewProduct({ newProduct }) {
 
       {componentStatus.isAddModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-[#00000069] z-50 flex justify-center items-center">
-          <div className="bg-white w-[50vw] h-[90vh] rounded-lg shadow-lg position-relative ">
+          <div className="bg-white flex flex-col w-[95vw] h-9/10 md:w-[60vw] md:h-[95vh] ">
             <header className="bg-white py-5 px-9 flex justify-between items-center shadow-md sticky top-0 ">
               <h1 className="font-bold text-3xl">Add New Product</h1>
               <button

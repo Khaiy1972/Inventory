@@ -18,8 +18,8 @@ function DetailsModal({ productDetails, onClose }) {
   };
 
   return (
-    <div className={style.background}>
-      <div className="w-[55vw] h-[90vh] bg-white flex flex-col">
+    <div className="fixed flex items-center justify-center bg-[#00000066] h-screen w-screen top-0 left-0 z-50">
+      <div className="bg-white flex flex-col w-[95vw] h-9/10 md:w-[60vw] md:h-[95vh] ">
         <header className="sticky top-0 z-10 bg-white flex justify-between items-center py-4 px-8 shadow-md">
           <div>
             <h4
@@ -40,26 +40,26 @@ function DetailsModal({ productDetails, onClose }) {
         </header>
 
         <section className="flex flex-col py-10 gap-4 overflow-y-scroll">
-          <section className={style.imgSection}>
-            <div className={style.imgThumbnailContainer}>
-              <button className={style.navButton} onClick={handleMoveLeft}>
+          <section className="flex flex-col gap-8">
+            <div className="flex items-center justify-evenly">
+              <button className="md: text-lg" onClick={handleMoveLeft}>
                 <ArrowBackIosNew />
               </button>
               <img
-                className={style.imgThumbnail}
+                className="h-52 md:h-80"
                 src={productDetails.images[imgPreview]}
                 alt={productDetails.title}
               />
-              <button className={style.navButton} onClick={handleMoveRight}>
+              <button className="md: text-lg" onClick={handleMoveRight}>
                 <ArrowForwardIos />
               </button>
             </div>
 
-            <div className={style.imgPreviewContainer}>
+            <div className="flex justify-center gap-8">
               {productDetails.images.map((image, index) => (
                 <img
-                  className={`${style.imgPreview} ${
-                    imgPreview === index && style.selected
+                  className={`h-14 rounded-md ${
+                    imgPreview === index && "border border-blue-500"
                   }`}
                   key={index}
                   src={image}
@@ -69,8 +69,8 @@ function DetailsModal({ productDetails, onClose }) {
             </div>
           </section>
 
-          <section className="px-15 flex flex-col gap-5">
-            <h2 className="text-blue-500 text-2xl">₱ {productDetails.price}</h2>
+          <section className="flex flex-col gap-5 px-8 md:px-15">
+            <h2 className="text-blue-500 text-2xl font-bold">₱ {productDetails.price}</h2>
             <div>
               <label className="text-gray-500">Discount</label>
               <h3 className="text-red-600">{productDetails.discountPercentage}% OFF</h3>

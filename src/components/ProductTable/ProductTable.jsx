@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getProduct, deleteProduct } from "../../service/apiServices";
 import { MenuItem, Select, TextField, InputLabel, FormControl } from "@mui/material";
-import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
+import { ArrowBackIosNew, ArrowForwardIos, Star, Close } from "@mui/icons-material";
 
 import { useViewport } from "../../lib";
 
@@ -106,7 +106,7 @@ function ProductTable() {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 w-full">
       <Toaster richColors position="top-center" />
       {/* conditional Renders */}
       {componentStatus.isEditOpen && (
@@ -135,12 +135,10 @@ function ProductTable() {
 
       {/* main render */}
       <header className="bg-blue-500 p-4 text-center">
-        <h1 className="md:text-3xl font-bold text-white">
-          PRODUCTS DEMO {viewportWidth}
-        </h1>
+        <h1 className="md:text-3xl font-bold text-white">PRODUCTS DEMO</h1>
       </header>
 
-      <section className="md:flex justify-between items-center py-4 gap-4">
+      <section className="relative flex justify-between items-center py-4 gap-4">
         <TextField
           fullWidth
           id="outlined-basic"
@@ -151,27 +149,29 @@ function ProductTable() {
         />
         {search && (
           <button
-            className={style.clearSearchButton}
+            className="absolute right-32 md:right-40 top-1/2 -translate-y-1/2 z-10 cursor-pointer"
             onClick={() => {
               setSearch("");
               setFilteredProduct(products);
             }}>
-            X
+            <Close />
           </button>
         )}
         <AddNewProduct newProduct={handleAddNewProduct}></AddNewProduct>
       </section>
 
       <table className={style.table}>
-        <thead className="bg-gray-100">
-          <tr className="md:h-20">
-            <th className="md:w-[10%] p-4">Thumbnail</th>
-            <th className="md:w-[10%] p-4 ">Name</th>
-            <th className="md:w-1/2 p-4 ">Description</th>
-            <th className="md:w-[10%] p-4 text-center">Price</th>
-            <th className="md:w-[10%] p-4 text-center">Action</th>
-          </tr>
-        </thead>
+        {viewportWidth > 768 && (
+          <thead className="bg-gray-100">
+            <tr className="md:h-20">
+              <th className="md:w-[10%] p-4">Thumbnail</th>
+              <th className="md:w-[10%] p-4 ">Name</th>
+              <th className="md:w-1/2 p-4 ">Description</th>
+              <th className="md:w-[10%] p-4 text-center">Price</th>
+              <th className="md:w-[10%] p-4 text-center">Action</th>
+            </tr>
+          </thead>
+        )}
 
         <tbody className={style.body}>
           {filteredProducts.length === 0 ? (
@@ -193,78 +193,114 @@ function ProductTable() {
                 (pagination.page - 1) * pagination.limit,
                 pagination.page * pagination.limit
               ) // Slicing for pagination
-              .map((product, index) => (
-                <tr
-                  style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
-                  key={index}>
-                  <td
-                    className="text-center"
-                    onClick={() =>
-                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                    }>
-                    <img
-                      className="h-40 w-auto inline-block object-contain"
-                      src={
-                        typeof product.images[0] === "object"
-                          ? URL.createObjectURL(product.images[0])
-                          : product.images[0]
-                      }
-                      alt={product.title}
-                    />
-                  </td>
-                  <td
-                    style={{ fontSize: "1.1rem" }}
-                    className={style.data}
-                    onClick={() =>
-                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                    }>
-                    {product.title}
-                  </td>
-                  <td
-                    style={{ color: "var(--text)" }}
-                    className={style.data}
-                    onClick={() =>
-                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                    }>
-                    {product.description}
-                  </td>
-                  <td
-                    className="text-center text-blue-500 font-semibold text-2xl"
-                    onClick={() =>
-                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
-                    }>
-                    <h3 className="text-center text-blue-500">₱{product.price} </h3>
-                    <div className={style.discountBadge}>
-                      {product.discountPercentage}% OFF
-                    </div>
-                  </td>
-                  <td style={{ textAlign: "center" }}>
-                    <button
-                      className={style.actionButton}
-                      onClick={() => {
-                        setComponentStatus((cs) => ({
-                          ...cs,
-                          isConfirmOpen: "Are you sure you want to delete this product?",
-                        }));
-                        setProductID(product.id);
-                      }}>
-                      Delete
-                    </button>
-                    <button
-                      className={style.actionButton}
+              .map((product, index) =>
+                viewportWidth > 768 ? (
+                  <tr
+                    style={{ height: "10rem", boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)" }}
+                    key={index}>
+                    <td
+                      className="text-center"
                       onClick={() =>
-                        setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
+                        setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
                       }>
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))
+                      <img
+                        className="h-40 w-auto inline-block object-contain"
+                        src={
+                          typeof product.images[0] === "object"
+                            ? URL.createObjectURL(product.images[0])
+                            : product.images[0]
+                        }
+                        alt={product.title}
+                      />
+                    </td>
+                    <td
+                      style={{ fontSize: "1.1rem" }}
+                      className={style.data}
+                      onClick={() =>
+                        setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                      }>
+                      {product.title}
+                    </td>
+                    <td
+                      style={{ color: "var(--text)" }}
+                      className={style.data}
+                      onClick={() =>
+                        setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                      }>
+                      {product.description}
+                    </td>
+                    <td
+                      className="text-center text-blue-500 font-semibold text-2xl"
+                      onClick={() =>
+                        setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                      }>
+                      <h3 className="text-center text-blue-500">₱{product.price} </h3>
+                      <div className="text-white font-semibold text-base bg-blue-500 mt-4 ml-4 px-2 py-1 rounded-full break">
+                        {product.discountPercentage}% OFF
+                      </div>
+                    </td>
+                    <td style={{ textAlign: "center" }}>
+                      <button
+                        className={style.actionButton}
+                        onClick={() => {
+                          setComponentStatus((cs) => ({
+                            ...cs,
+                            isConfirmOpen:
+                              "Are you sure you want to delete this product?",
+                          }));
+                          setProductID(product.id);
+                        }}>
+                        Delete
+                      </button>
+                      <button
+                        className={style.actionButton}
+                        onClick={() =>
+                          setComponentStatus((cs) => ({ ...cs, isEditOpen: product }))
+                        }>
+                        Edit
+                      </button>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr
+                    key={index}
+                    onClick={() =>
+                      setComponentStatus((cs) => ({ ...cs, isModalOpen: product }))
+                    }>
+                    <td className="flex items-start ">
+                      <img
+                        className="h-30 aspect-square object-contain -ml-6"
+                        src={
+                          typeof product.images[0] === "object"
+                            ? URL.createObjectURL(product.images[0])
+                            : product.images[0]
+                        }
+                        alt={product.title}
+                      />
+
+                      <div className="flex flex-col gap-3">
+                        <h1 className="text-lg font-bold">{product.title}</h1>
+                        <p className="line-clamp-2 text-gray-500 text-sm">
+                          {product.description}
+                        </p>
+                        <div className="flex justify-between items-center">
+                          <h1 className="text-xl  font-bold text-blue-500">
+                            ₱ {product.price}
+                          </h1>
+                          <div className="flex items-center gap-1 border border-gray-500 rounded-full px-2 ">
+                            {<Star sx={{ fontSize: "1rem" }} />} {product.rating}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )
           )}
         </tbody>
       </table>
 
-      <footer className={style.footer}>
+      <footer className="flex gap-1 md:gap-4 items-center">
         <button className="bg-transparent" onClick={handlePaginationLeft}>
           <ArrowBackIosNew />
         </button>
@@ -291,7 +327,7 @@ function ProductTable() {
         <FormControl style={{ position: "relative" }}>
           <InputLabel id="per_page">Per Page</InputLabel>
           <Select
-            sx={{ width: "7rem" }}
+            sx={{ width: "6rem" }}
             labelId="per_page"
             label="Per Page"
             value={pagination.limit}
